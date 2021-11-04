@@ -1,0 +1,36 @@
+Arguments: 
+  E:\Node\node.exe C:\Users\Maxime\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add vue-cli-plugin-vue-router -D --tilde
+
+PATH: 
+  C:\Users\Maxime\Desktop\OPC7\projet\node_modules\.bin;C:\Users\Maxime\Desktop\OPC7\node_modules\.bin;C:\Users\Maxime\Desktop\node_modules\.bin;C:\Users\Maxime\node_modules\.bin;C:\Users\node_modules\.bin;C:\node_modules\.bin;E:\Node;C:\Users\Maxime\bin;E:\Git\mingw64\bin;E:\Git\usr\local\bin;E:\Git\usr\bin;E:\Git\usr\bin;E:\Git\mingw64\bin;E:\Git\usr\bin;C:\Users\Maxime\bin;C:\Program Files\AdoptOpenJDK\jre-8.0.292.10-hotspot\bin;C:\Program Files\AdoptOpenJDK\jre-11.0.11.9-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Microsoft VS Code\bin;E:\Node;C:\Program Files\dotnet;C:\Program Files\MySQL\MySQL Shell 8.0\bin;C:\Users\Maxime\AppData\Local\Microsoft\WindowsApps;C:\Users\Maxime\AppData\Roaming\npm;C:\Users\Maxime\.dotnet\tools;E:\Git\usr\bin\vendor_perl;E:\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  14.17.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/vue-cli-plugin-vue-router: Not found
+      at Request.params.callback [as _callback] (C:\Users\Maxime\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66988:18)
+      at Request.self.callback (C:\Users\Maxime\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
+      at Request.emit (events.js:376:20)
+      at Request.<anonymous> (C:\Users\Maxime\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141634:10)
+      at Request.emit (events.js:376:20)
+      at IncomingMessage.<anonymous> (C:\Users\Maxime\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141556:12)
+      at Object.onceWrapper (events.js:482:28)
+      at IncomingMessage.emit (events.js:388:22)
+      at endReadableNT (internal/streams/readable.js:1336:12)
+      at processTicksAndRejections (internal/process/task_queues.js:82:21)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
