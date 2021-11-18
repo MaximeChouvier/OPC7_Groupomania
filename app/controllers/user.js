@@ -10,7 +10,9 @@ bcrypt
     .then(hash => {
         const newUser = new User({
             email: req.body.email,
-            password: hash
+            name: hash,
+            firstname: req.body.firstname,
+            password: hash,
         });
         newUser.save()
             .then(() => res.status(200).json({message: "Nice, user created"}))
