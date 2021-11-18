@@ -21,6 +21,7 @@ app.use((req, res, next) => {
 const userRoutes = require("./app/routes/user");
 
 //Routes
+app.use(express.json())
 app.use("/api/auth", userRoutes);
 
 
