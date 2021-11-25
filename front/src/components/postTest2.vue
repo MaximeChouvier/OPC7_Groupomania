@@ -1,5 +1,5 @@
 <template>
-    <div class="postWrapper">
+    <div class="image-postWrapper">
         <div class="post-upper">
             <img class="post-userPicture" src="../assets/logo.png">
             <h1 class="post-userName">Maxime Chouvier</h1>
@@ -21,15 +21,15 @@ export default{
 </script>
 
 <style scoped>
-.postWrapper{
-    background: rgb(25,60,153);
-    background: linear-gradient(45deg, rgba(25,60,153,1) 0%, rgba(118,25,153,1) 100%);
+.image-postWrapper{
+    background: #000;
+    background: linear-gradient(45deg, #372248 0%, #414770 100%);
     border: 1px solid rgba(23, 3, 34, 0.726);
     border-radius: 10px;
     margin: 20px 0px 20px 0px;
     min-width: 300px;
-    min-height: 230px;;
-    max-height: 230px;;
+    min-height: 240px;
+    max-height: 240px;
 
 }
 .post-upper{

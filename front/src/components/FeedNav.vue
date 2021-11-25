@@ -25,9 +25,9 @@ html, body{
   min-width: 320px;
   min-height: 30px;
   
-  background: rgb(118,25,153);
-  background: radial-gradient(circle, rgba(118,25,153,1) 0%, rgba(54,25,153,1) 100%);
-  border-top: 1px solid rgba(54,25,153,10);
+  background: #000;
+  background: radial-gradient(circle,  #414770 0%, #372248 100%);
+  border-top: 1px solid #372248;
   
   display:flex;
   justify-content:space-around;

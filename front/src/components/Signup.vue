@@ -15,7 +15,7 @@
         <h2>Mot de passe</h2>
         <input type="password" class="formInput" name="Login.Password" v-model="password">
 
-        <button type="submit" class="formButton" @click="sendSignupRequest">S'inscrire</button>
+        <button class="formButton" @click="sendSignupRequest">S'inscrire</button>
     </div>
   </div>
 </template>
@@ -42,10 +42,10 @@ export default {
         password: this.password
       };
       await axios
-        .post("http://localhost:8080/api/auth/signup", data)
+        .post("http://localhost:3000/api/auth/signup", data)
         .then((res) => {
           console.log(res);
-
+          this.$router.push("/")
         })
         .catch((error) => {
           this.error = error.response.data;
