@@ -4,6 +4,7 @@ const sequelize = require('sequelize')
 const router = express.Router();
 const models = require("../models");
 const { request } = require('express');
+const jwt = require("jsonwebtoken");
 
 
 exports.signup = (req, res, next) => {
@@ -18,11 +19,13 @@ models.User.findOne({where : {email: req.body.email}})
           name: req.body.name,
           firstname: req.body.firstname,
           password: hash,
-          isAdmin: true
+          isAdmin: false
+          //response
   })
     .then((user) => {
       res.status(201).json({
         userId: user.id
+        //response
       });
     })
     .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
@@ -47,8 +50,16 @@ models.User.findOne({where : {email: req.body.email}})
             if (!valid) {
               return res.status(401).json({ error: "User found but passwords aren't matching"})
             }
-            res.status(200).json({message: "Vous êtes connecté"})
+            res.status(200).json({
+              userId: user.id,
+              name: user.name,
+              firstname: user.firstname,
+              token: jwt.sign({ userId: user.id, isAdmin: user.isAdmin }, "C(Y97Y4#R}yep5J}", {
+                expiresIn: "24h",
+              }),
+            });
           })
+          .catch((error) => res.status(500).json({ error }));
       }
     })
 };
