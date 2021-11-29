@@ -5,6 +5,7 @@ const router = express.Router();
 const models = require("../models");
 const { request } = require('express');
 const jwt = require("jsonwebtoken");
+const { default: store } = require('../../front/store');
 
 
 exports.signup = (req, res, next) => {
@@ -50,6 +51,7 @@ models.User.findOne({where : {email: req.body.email}})
             if (!valid) {
               return res.status(401).json({ error: "User found but passwords aren't matching"})
             }
+            res.send(store.state.count)
             res.status(200).json({
               userId: user.id,
               name: user.name,
@@ -58,6 +60,7 @@ models.User.findOne({where : {email: req.body.email}})
                 expiresIn: "24h",
               }),
             });
+            // store.commit(token)
           })
           .catch((error) => res.status(500).json({ error }));
       }
