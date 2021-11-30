@@ -38,6 +38,7 @@ export default {
           localStorage.setItem("id", res.data.userId)
           this.$router.push("/feed")
         })
+        
     }
   }
 }

@@ -9,7 +9,6 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
-
   },
   {
     path: '/Signup',
@@ -22,7 +21,15 @@ const routes = [
   {
     path: '/Feed',
     name: 'Feed',
-    component: () => import(/* webpackChunkName: "feed" */ '../views/MainFeed.vue')
+    component: () => import(/* webpackChunkName: "feed" */ '../views/MainFeed.vue'), beforeEnter: (to, from, next) => {
+      let token = localStorage.getItem("token");
+      if (token) {
+        next();
+      } else {
+        next({name: "Home"})
+      }
+    }
+    
   }
 ]
 
