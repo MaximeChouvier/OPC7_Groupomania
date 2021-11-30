@@ -45,7 +45,7 @@ export default {
         .post("http://localhost:3000/api/auth/signup", data)
         .then((res) => {
           console.log(res);
-          this.$router.push("/")
+          this.$router.push("/");
         })
         .catch((error) => {
           this.error = error.response.data;

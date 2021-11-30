@@ -34,7 +34,8 @@ export default {
       await axios
       .post("http://localhost:3000/api/auth/login", data)
         .then((res) =>{
-          console.log(res);
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("id", res.data.userId)
           this.$router.push("/feed")
         })
     }
