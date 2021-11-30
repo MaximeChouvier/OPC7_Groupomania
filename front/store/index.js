@@ -1,22 +1,22 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+// import Vue from 'vue'
+// import Vuex from 'vuex'
 
 
-Vue.use(Vuex)
+// Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
-    test: "salut mon con",
-    token: '',
-    user : {}
-  },
-  mutations: {
+// export default new Vuex.Store({
+//   state: {
+//     test: "",
+//     token: '',
+//     user : {}
+//   },
+//   mutations: {
 
-  },
-  actions: {
+//   },
+//   actions: {
+// s
+//   },
+//   getters : {
 
-  },
-  getters : {
-
-  }
-})
+//   }
+// })
