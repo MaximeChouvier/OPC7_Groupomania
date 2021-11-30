@@ -1,16 +1,21 @@
 <template>
     <div class="nav">
-      <i class="fas fa-sign-out-alt navIcon"></i>
-      <i class="far fa-comment-alt navIcon"></i>
-      <i class="far fa-address-card navIcon"></i>
+      <router-link to="/"><i class="fas fa-sign-out-alt navIcon" @click="disconnect"></i></router-link>
+      <router-link to="/Post"><i class="far fa-comment-alt navIcon"></i></router-link>
+      <router-link to="/Profile"><i class="far fa-address-card navIcon"></i></router-link>
     </div>
 </template>
 
 <script>
-
 export default {
   name: 'FeedNav',
+  methods: {
+  disconnect() {
+   window.localStorage.clear("token", "id");
+  }
 }
+}
+
 </script>
 
 <style scoped>
