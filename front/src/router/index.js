@@ -42,6 +42,18 @@ const routes = [
       }
     }
   },
+  {
+    path: "/EditAccount",
+    name: "EditAccount",
+    component: () => import(/* webpackChunkName: "EditAccount" */ '../views/EditAccount.vue'), beforeEnter: (to, from, next) => {
+      let token = localStorage.getItem("token");
+      if (token) {
+        next();
+      } else {
+        next({name: "Home"})
+      }
+    }
+  },
 ]
 
 const router = new VueRouter({
