@@ -1,15 +1,15 @@
 <template>
   <div class="profile">
-      <p>azeazeze</p>
+      <EditAccount/>
   </div>
 </template>
 
 <script>
+import EditAccount from '@/components/EditAccount.vue'
 
 export default {
-  name: 'EditAccount',
   components: {
-      
+      EditAccount
   }
 }
 </script>

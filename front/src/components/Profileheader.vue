@@ -5,7 +5,7 @@
             <h1 class="ProfileHeader_UserName">Chouvier Maxime</h1>
         </div>
         <div class="ProfileHeader_bottom">
-            <button class="ProfileHeader_EditUser">Editer son compte</button>
+            <router-link to="/EditAccount"><button class="ProfileHeader_EditUser">Editer son compte</button></router-link>
             <button class="ProfileHeader_RemoveUser">Supprimer son compte</button>
         </div>
    </div>
@@ -40,11 +40,11 @@ img{
     min-height: 70px;
 }
 button {
-    color: #78FFF1;
     border: none;
     text-decoration: none;
-    padding: 9px 15px;
+    padding: 12px 15px;
     text-align: center;
+    font-size: 14px;
 }
 .ProfileHeader_EditUser{
     background-color: #414770 ;

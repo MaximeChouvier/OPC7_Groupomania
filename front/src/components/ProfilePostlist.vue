@@ -1,6 +1,8 @@
 <template>
     <div class="ProfilePostlist">
-        <router-link to="/Feed"><button class="GetBackToFeed">Quitter le profil</button></router-link>
+        <div class="centered">
+            <router-link to="/Feed"><h2 class="GetBackToFeed">Quitter le profil</h2></router-link>
+        </div>
 
         <h2 class="userPost_Title">Cet utilisateur à posté ;</h2>
         <div class="postInjection">
@@ -47,11 +49,14 @@ export default {
 
 <style scoped>
 .GetBackToFeed{
-    color: black;
-    border: none;
-    text-decoration: none;
-    padding: 9px 15px;
-    text-align: center;
+    color: #78FFF1;
+    font-size: 20px;
+}
+.centered{
+margin-top: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
 }
 .userPost_Title{
     text-align: center;
