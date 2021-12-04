@@ -6,18 +6,40 @@
         </div>
         <div class="ProfileHeader_bottom">
             <router-link to="/EditAccount"><button class="ProfileHeader_EditUser">Editer son compte</button></router-link>
-            <button class="ProfileHeader_RemoveUser">Supprimer son compte</button>
+            <button class="ProfileHeader_RemoveUser" @click="deleteAccount">Supprimer son compte</button>
         </div>
    </div>
 </template>
 
 <script>
+import axios from "axios";
+let jwt = require("jsonwebtoken");
 export default {
   name: 'ProfileHeader',
+  methods:{
+      async deleteAccount(){
+            var token = localStorage.getItem("token");
+            let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
+            let userId = {
+                "userId": decodedToken.userId
+            }
+        await axios
+            .post("http://localhost:3000/api/auth/delete", userId)
+            .then((res) =>{
+               console.log(res)
+               localStorage.clear("token", "id");
+               this.$router.push("/")
+            })
+            .catch((error) => {
+            this.error = error.response.data;
+            console.log(error.response.data);
+        });   
+      }
+  }
 }
 </script>
-
 <style scoped>
+
 img{
     max-height: 100px;
     max-width: 100px;
