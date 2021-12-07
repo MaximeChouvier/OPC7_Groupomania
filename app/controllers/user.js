@@ -68,10 +68,41 @@ console.log(req.body.userId)
     where: {
         id : req.body.userId
     }
-    
 })
   res.status(200).json({
     message: "User deleted"
   })
-}
+};
 
+exports.EditAccount = (req, res ,next) => {
+  if (!req.body.email && !req.body.password) {
+    //no email, no password, error.
+    res.status(500).json({message: "Nothing to update"})
+  } else if (!req.body.email && req.body.password){
+    //No email,only update password
+    bcrypt
+    .hash(req.body.password, 10)
+      .then((hash) => {
+        let updated = {
+          password: hash
+        }
+        models.User.update(updated, {
+          where: {
+            id: req.body.userId
+          }
+        })
+      })
+    res.status(200).json({message: "Password Updated"})
+  } else if (req.body.email && !req.body.password){
+    let updated = {
+      email: req.body.email
+    }
+    models.User.update(updated, {
+      where: {
+        id: req.body.userId
+      }
+    })
+    //no password, only update email
+    res.status(200).json({message: "Email Updated"})
+  }
+};

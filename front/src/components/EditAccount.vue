@@ -3,11 +3,11 @@
       <h1>Modifier vôtre compte</h1>
 
     <div class="editForm">
-      <input type="text" class="formInput" name="Login.Email" v-model="email" placeholder="Changer d'Email">
-      <input type="password" class="formInput" name="Login.Email" v-model="email" placeholder="Changer de mot de passe">
+      <input type="text" class="formInput" name="Login.Email" placeholder="Changer d'Email" v-model="email">
+      <input type="password" class="formInput" name="Login.Email" placeholder="Changer de mot de passe" v-model="password">
      
       <div class="buttonZone">
-        <button class="EditAccountButton">Modifier mes identifiants</button>
+        <button class="EditAccountButton" @click="modifyAccInfo">Valider les changements</button>
         <button class="EditImage">Image de profil</button>
       </div>
     </div>
@@ -21,8 +21,43 @@
 </template>
 
 <script>
+import axios from "axios";
+let jwt = require("jsonwebtoken");
 export default {
   name: 'EditAccount',
+  data(){
+    return{
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+   async modifyAccInfo(){
+      var token = localStorage.getItem("token");
+      let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
+      const data = {
+        userId: decodedToken.userId,
+        email: this.email,
+        password: this.password
+      };
+      await axios
+      .put("http://localhost:3000/api/auth/EditAccount", data)
+      .then((res) =>{
+        if (res.status == 200){
+          alert("Identifiants modifiés !")
+          this.$router.push("/Profile")
+        } else { 
+          console.log("Erreur, Aucun changements")
+        }
+      console.log(res)
+      })
+      .catch((error) => {
+       this.error = error.response.data;
+        console.log(error.response.data);
+      });   
+    }
+  }
+
 }
 
 </script>

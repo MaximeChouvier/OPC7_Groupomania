@@ -23,17 +23,23 @@ export default {
             let userId = {
                 "userId": decodedToken.userId
             }
-        await axios
-            .post("http://localhost:3000/api/auth/delete", userId)
-            .then((res) =>{
-               console.log(res)
-               localStorage.clear("token", "id");
-               this.$router.push("/")
-            })
-            .catch((error) => {
-            this.error = error.response.data;
-            console.log(error.response.data);
+            
+            var confirmDelete = confirm("Voulez-vous vraiment supprimer vôtre compte ?")
+            if (confirmDelete == true) {
+                await axios
+                .post("http://localhost:3000/api/auth/delete", userId)
+                .then((res) =>{
+                console.log(res)
+                localStorage.clear("token", "id");
+                this.$router.push("/")
+                })
+                .catch((error) => {
+                this.error = error.response.data;
+                console.log(error.response.data);
         });   
+            } else {
+                console.log("canceled")
+            }
       }
   }
 }
