@@ -42,25 +42,17 @@ export default {
             }
       }
   },
-  //lifecycle hook
- async beforeCreate(){
-     let token = localStorage.getItem("token")
-     let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
-     console.log(decodedToken)
-    // var token = localStorage.getItem("id");
-    // let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
-    // let item = {
-    //     "userId": 18
-    // }
-    // console.log(item)
-    // await axios
-    //     .get("http://localhost:3000/api/auth/getUserProfileInfo", item)
-    //     .then((res) => {
-    //         console.log(res)
-    //         // document.getElementById("userName").innerHTML = userName;
-    //     })
+mounted() {
+    let token = localStorage.getItem("token");
+    let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
+    console.log(decodedToken.userId)
+    axios
+        .post("http://localhost:3000/api/auth/getUserProfileInfo", {userId : decodedToken.userId})
+        .then((res) => {
+            console.log(res.data)
+        })
+}
 
-  },
 }
 </script>
 <style scoped>
