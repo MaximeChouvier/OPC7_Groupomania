@@ -2,7 +2,7 @@
     <div class="ProfileHeader">
         <div class="ProfileHeader_top">
             <img class="ProfileHeader_UserPicture" src="../assets/logo.png">
-            <h1 class="ProfileHeader_UserName">Chouvier Maxime</h1>
+            <h1 id="userName" class="ProfileHeader_UserName">UserName</h1>
         </div>
         <div class="ProfileHeader_bottom">
             <router-link to="/EditAccount"><button class="ProfileHeader_EditUser">Editer son compte</button></router-link>
@@ -41,7 +41,26 @@ export default {
                 console.log("canceled")
             }
       }
-  }
+  },
+  //lifecycle hook
+ async beforeCreate(){
+     let token = localStorage.getItem("token")
+     let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
+     console.log(decodedToken)
+    // var token = localStorage.getItem("id");
+    // let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
+    // let item = {
+    //     "userId": 18
+    // }
+    // console.log(item)
+    // await axios
+    //     .get("http://localhost:3000/api/auth/getUserProfileInfo", item)
+    //     .then((res) => {
+    //         console.log(res)
+    //         // document.getElementById("userName").innerHTML = userName;
+    //     })
+
+  },
 }
 </script>
 <style scoped>
