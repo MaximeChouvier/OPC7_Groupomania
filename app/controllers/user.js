@@ -109,14 +109,15 @@ exports.EditAccount = (req, res ,next) => {
 
 exports.getUserProfileInfo = (req, res, next) => {
   console.log(req.body)
-  // models.User.findOne({where : {id: req.body}})
-  //   .then(() => {
-  //       res.status(200).json({
-  //         message: "User found, returning values",
-  //         name: user.name,
-  //         firstname: user.firstname,
-  //         createdAt: user.createdAt,
-  //       })
-      
-  //   })
+  models.User.findOne({where : {id: req.body.userId}})
+    .then((user) => {
+        res.status(200).json({
+          message: "User found, returning values",
+          
+          firstname: user.firstname,
+          name: user.name,
+          isAdmin: user.isAdmin
+        })
+    })
+    .catch((error) => {error})
 }

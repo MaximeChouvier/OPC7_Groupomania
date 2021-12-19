@@ -50,6 +50,11 @@ mounted() {
         .post("http://localhost:3000/api/auth/getUserProfileInfo", {userId : decodedToken.userId})
         .then((res) => {
             console.log(res.data)
+            let userName = document.getElementById("userName")
+            userName.innerHTML = res.data.name + " " + res.data.firstname
+            if (res.data.isAdmin == 1) {
+                userName.style.color = "#75faedad";
+            }
         })
 }
 
