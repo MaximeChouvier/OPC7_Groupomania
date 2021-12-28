@@ -19,7 +19,6 @@ models.User.findOne({where : {email: req.body.email}})
           firstname: req.body.firstname,
           password: hash,
           isAdmin: false
-          //response
   })
     .then((user) => {
       res.status(201).json({

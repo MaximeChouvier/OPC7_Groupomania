@@ -1,22 +1,19 @@
 <template>
     <div>
         <feedNav/>
-        <postTest/>
-        <postTest2/>
+        <feedPosts/>
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import FeedNav from '@/components/FeedNav.vue'
-import postTest from "@/components/postTest.vue"
-import postTest2 from "@/components/postTest2.vue"
-
+import feedPosts from '@/components/feedPosts.vue'
 
 export default {
   name: 'Feed',
   components: {
-    FeedNav, postTest, postTest2,
+    FeedNav, feedPosts
   }
 }
 </script>

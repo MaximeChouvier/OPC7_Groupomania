@@ -19,10 +19,12 @@ app.use((req, res, next) => {
 
 //defining routes
 const userRoutes = require("./app/routes/user");
+const postRoutes = require("./app/routes/post");
 
 //Routes
 app.use(express.json())
 app.use("/api/auth", userRoutes);
+app.use("/api/auth", postRoutes);
 
 
 module.exports = app;

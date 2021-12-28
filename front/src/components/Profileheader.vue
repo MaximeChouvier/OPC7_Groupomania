@@ -8,6 +8,7 @@
             <router-link to="/EditAccount"><button class="ProfileHeader_EditUser">Editer son compte</button></router-link>
             <button class="ProfileHeader_RemoveUser" @click="deleteAccount">Supprimer son compte</button>
         </div>
+        <h2 class="leaveButton" @click="pushToFeed">Quitter le profil</h2>
    </div>
 </template>
 
@@ -40,16 +41,17 @@ export default {
             } else {
                 console.log("canceled")
             }
+      },
+      pushToFeed(){
+          this.$router.push("/feed")
       }
   },
 mounted() {
     let token = localStorage.getItem("token");
     let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
-    console.log(decodedToken.userId)
     axios
         .post("http://localhost:3000/api/auth/getUserProfileInfo", {userId : decodedToken.userId})
         .then((res) => {
-            console.log(res.data)
             let userName = document.getElementById("userName")
             userName.innerHTML = res.data.name + " " + res.data.firstname
             if (res.data.isAdmin == 1) {
@@ -61,7 +63,6 @@ mounted() {
 }
 </script>
 <style scoped>
-
 img{
     max-height: 100px;
     max-width: 100px;
@@ -95,5 +96,11 @@ button {
 }
 .ProfileHeader_RemoveUser{
     background-color:#372248;
+}
+.leaveButton{
+    color: #75faedad;
+    text-align: center;
+    font-size: 22px;
+    margin-top: 40px;
 }
 </style>

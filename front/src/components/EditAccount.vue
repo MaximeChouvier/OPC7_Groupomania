@@ -7,11 +7,14 @@
       <input type="password" class="formInput" name="Login.Email" placeholder="Changer de mot de passe" v-model="password">
      
       <div class="buttonZone">
-        <button class="EditAccountButton" @click="modifyAccInfo">Valider les changements</button>
-        <button class="EditImage">Image de profil</button>
+        <button class="EditAccountButton" @click="modifyAccInfo">Modifier mes identifiants</button>
       </div>
     </div>
+
     <div class="centered">
+      <form action="/profile" method="post" enctype="multipart/form-data">
+        <input class="EditImage" type="file" accept="image/png, image/jpeg" name="EditImage" title=" "/>
+      </form>
       <router-link to="/Profile"><button class="Backtoprofile">Retour au profil</button></router-link>
     </div>
 
@@ -22,6 +25,8 @@
 
 <script>
 import axios from "axios";
+// const multer = require("multer")
+// const upload = multer({dest: "../../../uploads"})
 let jwt = require("jsonwebtoken");
 export default {
   name: 'EditAccount',
@@ -32,7 +37,7 @@ export default {
     };
   },
   methods: {
-   async modifyAccInfo(){
+    async modifyAccInfo(){
       var token = localStorage.getItem("token");
       let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
       const data = {
@@ -55,7 +60,17 @@ export default {
        this.error = error.response.data;
         console.log(error.response.data);
       });   
-    }
+      },
+    // updateProfileImg(){
+    //   axios
+    //     .post('http://localhost:3000/api/auth/EditPicture', upload.single('avatar', function (req, res ,next) {
+          
+    //     }))
+    //     .then((res) => {
+
+    //     });
+    // }
+
   }
 
 }
@@ -86,7 +101,7 @@ h1{
 }
 .EditImage{
   background-color:#75faedad ;
-  margin: 10px 5px 0px 5px;
+  margin: 10px 5px 20px 5px;
 }
 .EditAccountButton{
   background-color:#372248 ;
@@ -107,5 +122,6 @@ margin-top: 20px;
 display: flex;
 align-items: center;
 justify-content: center;
+flex-wrap: wrap;
 }
 </style>
