@@ -10,6 +10,7 @@ exports.createPost = (req, res, next) =>{
     console.log(req.body)
     if(!req.body.postText && req.body.imgUrl){
         const post = models.Post.create({
+            userName: req.body.userName,
             userId: req.body.userId,
             imgUrl: req.body.imgUrl
     })
@@ -20,6 +21,7 @@ exports.createPost = (req, res, next) =>{
         })
     } else if (req.body.postText && !req.body.imgUrl){
         const post = models.Post.create({
+            userName: req.body.userName,
             userId: req.body.userId,
             postText: req.body.postText
     })
@@ -30,6 +32,7 @@ exports.createPost = (req, res, next) =>{
         })
     } else {
         const post = models.Post.create({
+            userName: req.body.userName,
             userId: req.body.userId,
             postText: req.body.postText,
             imgUrl: req.body.imgUrl
@@ -45,8 +48,6 @@ exports.createPost = (req, res, next) =>{
 exports.getAllPosts = (req, res ,next ) => {
     models.Post.findAll()
     .then((posts) => {
-        res.status(200).json({
-            posts
-        })
+        res.status(200).json({posts})
     })
 }

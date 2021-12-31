@@ -1,13 +1,16 @@
 <template>
     <div id="postContainer">
-        <div class="postWrapper">
+        <div v-for="post in posts" :key="post.id" class="postWrapper">
             <div class="post-upper">
                 <img class="post-userPicture" src="../assets/profilholder.jpg">
-                <h1 class="post-userName">Albert Dupont</h1>
+                <h1 class="post-userName">{{post.userName}}, id : {{post.id}}</h1>
             </div>
             <div class="post-content">
-                <p>La fable "Le Corbeau et le Renard", l'une des plus connues du poète, en est extraite. La morale est la suivante : "Apprenez que tout flatteur vit aux dépens de celui qui l'écoute". Sous Louis XIV, la flatterie est un art.</p>
+                <p>{{post.postText}}</p>
             </div>
+            <!-- <button class="deletePost">
+                 Supprimer ce post
+            </button> -->
         </div>
     </div>
 
@@ -17,6 +20,11 @@
 import axios from "axios";
 export default{
     name: "feedPosts",
+    data(){
+        return{
+            posts: []
+        }
+    },
     methods: {
         injectPost(post){
             console.log(post)
@@ -26,12 +34,9 @@ mounted() {
     axios
         .get("http://localhost:3000/api/auth/getAllPosts")
         .then((res) => {
-            res.data.posts.forEach(item => 
-            console.log(item),
-            // create_PostWrapper = document.createElement("div")
-            
-            
-            )
+            console.log(res)
+            this.posts = res.data.posts
+
         })
 }
 

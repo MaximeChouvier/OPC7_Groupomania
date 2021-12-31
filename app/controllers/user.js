@@ -51,7 +51,7 @@ models.User.findOne({where : {email: req.body.email}})
               userId: user.id,
               name: user.name,
               firstname: user.firstname,
-              token: jwt.sign({ userId: user.id, isAdmin: user.isAdmin }, "C(Y97Y4#R}yep5J}", {
+              token: jwt.sign({name: user.name, firstname: user.firstname, userId: user.id, isAdmin: user.isAdmin }, "C(Y97Y4#R}yep5J}", {
                 expiresIn: "24h",
               }),
             });
@@ -107,12 +107,10 @@ exports.EditAccount = (req, res ,next) => {
 };
 
 exports.getUserProfileInfo = (req, res, next) => {
-  console.log(req.body)
   models.User.findOne({where : {id: req.body.userId}})
     .then((user) => {
         res.status(200).json({
           message: "User found, returning values",
-          
           firstname: user.firstname,
           name: user.name,
           isAdmin: user.isAdmin

@@ -1,22 +1,46 @@
 <template>
     <div class="nav">
         <form>
-            <textarea name="postText" id="postText" 
+            <textarea v-model="postText" id="postText"
             cols="30" rows="10" maxlength="270"></textarea>
 
             <input type="file" id="postImage" name="postImage" 
             accept="image/png, image/jpeg" title=" ">
-            <button>
+            <button @click="newPost">
                 Publier vôtre post
             </button>
         </form>
+        <h2 class="cancelPost" @click="pushToFeed">Retour</h2>
 
     </div>
 </template>
 
 <script>
+import axios from 'axios'
+let jwt = require("jsonwebtoken")
 export default{
-    name: "PostForm"
+    name: "PostForm",
+    methods: {
+        newPost(){
+            let token = localStorage.getItem("token");
+            let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
+            let x = decodedToken.name + " " + decodedToken.firstname
+            let data = {
+                userName: x,
+                userId: decodedToken.userId,
+                postText: this.postText
+            }
+            axios
+                .post("http://localhost:3000/api/auth/createPost", data)
+                    .then((res) => {
+                        console.log(res.data)
+                    })
+                    .catch()
+        },
+        pushToFeed(){
+            this.$router.push("/feed")
+        }
+    },
 }
 </script>
 
@@ -41,5 +65,10 @@ export default{
         border: none;
         padding:10px;
         font-size: 15px;
+    }
+    .cancelPost{
+        text-align: center;
+        font-size: 24px;
+        color:#78FFF1 ;
     }
 </style>
