@@ -21,25 +21,26 @@ let jwt = require("jsonwebtoken")
 export default{
     name: "PostForm",
     methods: {
+        pushToFeed(){
+            this.$router.push("/feed")
+        },
         newPost(){
             let token = localStorage.getItem("token");
             let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
-            let x = decodedToken.name + " " + decodedToken.firstname
+            let fullName = decodedToken.name + " " + decodedToken.firstname
             let data = {
-                userName: x,
+                userName: fullName,
                 userId: decodedToken.userId,
                 postText: this.postText
             }
             axios
                 .post("http://localhost:3000/api/auth/createPost", data)
-                    .then((res) => {
-                        console.log(res.data)
+                    .then(() => {
+                        this.$router.go("/feed")
                     })
                     .catch()
         },
-        pushToFeed(){
-            this.$router.push("/feed")
-        }
+
     },
 }
 </script>

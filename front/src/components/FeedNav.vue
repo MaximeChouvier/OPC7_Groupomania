@@ -36,6 +36,8 @@ html, body{
   
   display:flex;
   justify-content:space-around;
+
+  z-index: 10;
 }
 i{
   margin: 5px 0px 5px 0px;

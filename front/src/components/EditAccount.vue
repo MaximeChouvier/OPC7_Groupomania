@@ -25,8 +25,6 @@
 
 <script>
 import axios from "axios";
-// const multer = require("multer")
-// const upload = multer({dest: "../../../uploads"})
 let jwt = require("jsonwebtoken");
 export default {
   name: 'EditAccount',

@@ -3,14 +3,13 @@
         <div v-for="post in posts" :key="post.id" class="postWrapper">
             <div class="post-upper">
                 <img class="post-userPicture" src="../assets/profilholder.jpg">
-                <h1 class="post-userName">{{post.userName}}, id : {{post.id}}</h1>
+                <h1 class="post-userName">{{post.userName}}</h1>
             </div>
             <div class="post-content">
                 <p>{{post.postText}}</p>
             </div>
-            <!-- <button class="deletePost">
-                 Supprimer ce post
-            </button> -->
+            <i class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
+           
         </div>
     </div>
 
@@ -18,6 +17,7 @@
 
 <script>
 import axios from "axios";
+let jwt = require("jsonwebtoken");
 export default{
     name: "feedPosts",
     data(){
@@ -26,18 +26,35 @@ export default{
         }
     },
     methods: {
-        injectPost(post){
-            console.log(post)
+        deleteThisPost(postId){
+            let data = {
+                postId: postId
+            }
+            axios
+                .put("http://localhost:3000/api/auth/deletePost", data)
+                this.$router.go(0);
         }
     },
 mounted() {
+    let token = localStorage.getItem("token");
+    let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
     axios
         .get("http://localhost:3000/api/auth/getAllPosts")
         .then((res) => {
-            console.log(res)
             this.posts = res.data.posts
-
         })
+    axios
+        .post("http://localhost:3000/api/auth/getUserProfileInfo", {userId : decodedToken.userId})
+        .then((res) => {
+            if(res.data.isAdmin == false) {
+                document.querySelectorAll('.trashButton').forEach(function(el) {
+                el.style.display = 'none';
+                });
+            } else {
+
+            }
+        })
+
 }
 
 
@@ -48,7 +65,6 @@ mounted() {
 
 <style scoped>
 .postWrapper{
-    /* background: #000; */
     background: linear-gradient(45deg, #372248 0%,  #414770
  100%);
     border: 1px solid rgba(23, 3, 34, 0.726);
@@ -78,5 +94,12 @@ mounted() {
 .post-content{
     padding: 5px;
     text-align: justify;
+    display: flex;
+}
+.fa-trash{
+    position: relative;
+    top: -95px;
+    left: 1px;
+    z-index: 0;
 }
 </style>

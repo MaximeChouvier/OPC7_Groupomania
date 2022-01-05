@@ -7,7 +7,6 @@ const { request } = require('express');
 const jwt = require("jsonwebtoken");
 
 exports.createPost = (req, res, next) =>{
-    console.log(req.body)
     if(!req.body.postText && req.body.imgUrl){
         const post = models.Post.create({
             userName: req.body.userName,
@@ -30,7 +29,7 @@ exports.createPost = (req, res, next) =>{
                 message: "only text post created"
             })
         })
-    } else {
+    } else if (req.body.postText && req.body.imgUrl) {
         const post = models.Post.create({
             userName: req.body.userName,
             userId: req.body.userId,
@@ -42,6 +41,9 @@ exports.createPost = (req, res, next) =>{
                 message: "full post created"
             })
         })
+    } else{
+        res.status(500).json({message: "empty post"})
+        
     }
 }
 
@@ -49,5 +51,14 @@ exports.getAllPosts = (req, res ,next ) => {
     models.Post.findAll()
     .then((posts) => {
         res.status(200).json({posts})
+    })
+}
+
+exports.deletePost = (req, res, next) => {
+    console.log(req.body.postId)
+    models.Post.destroy({
+        where: {
+            id: req.body.postId
+        }
     })
 }
