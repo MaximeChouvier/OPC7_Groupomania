@@ -16,29 +16,63 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 let jwt = require("jsonwebtoken")
 export default{
     name: "PostForm",
+    data(){
+        return {
+            postText:"",
+        }   
+    },
     methods: {
         pushToFeed(){
             this.$router.push("/feed")
         },
         newPost(){
-            let token = localStorage.getItem("token");
-            let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
-            let fullName = decodedToken.name + " " + decodedToken.firstname
-            let data = {
-                userName: fullName,
-                userId: decodedToken.userId,
-                postText: this.postText
-            }
-            axios
-                .post("http://localhost:3000/api/auth/createPost", data)
-                    .then(() => {
-                        this.$router.go("/feed")
-                    })
-                    .catch()
+        let token = localStorage.getItem("token");
+        let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
+        let fullName = decodedToken.name + " " + decodedToken.firstname
+
+        const imageFile = document.querySelector("input[type=file]").files[0];
+        if (this.newPost != "" || imageFile) {
+        const formData = new FormData();
+        formData.append("postText", this.postText);
+        formData.append("userName", fullName);
+        formData.append("userId", decodedToken.userId);
+        if (imageFile) {
+          formData.append("image", imageFile);
+        }
+        fetch("http://localhost:3000/api/auth/createPost", {
+          method: "POST",
+          body: formData,
+        //   headers: {
+        //     Authorization: "Bearer " + this.$store.state.user.token,
+        //   },
+        
+        })
+        .then(() => {
+            console.log("ok")
+        })
+        .catch(() => {
+            console.log("pas cool")
+        })
+        }
+    //   } else {
+    //     this.errorMessage = "A post cannot be empty";
+    //     setTimeout(() => {
+    //       this.errorMessage = "";
+    //     }, 3000);
+    //   }
+
+            // axios
+            //     .post("http://localhost:3000/api/auth/createPost", data)
+            //         .then(() => {
+            //             this.$router.push("/feed")
+            //         })
+            //         .catch(() => {
+
+            //         })
         },
 
     },

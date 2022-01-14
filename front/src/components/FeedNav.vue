@@ -11,7 +11,7 @@ export default {
   name: 'FeedNav',
   methods: {
   disconnect() {
-   window.localStorage.clear("token", "id");
+    window.localStorage.clear("token", "id");
   }
 }
 }
@@ -27,7 +27,7 @@ html, body{
   position: fixed;
   bottom:0px;
   left:0px;
-  min-width: 320px;
+  min-width: 100%;
   min-height: 30px;
   
   background: #000;

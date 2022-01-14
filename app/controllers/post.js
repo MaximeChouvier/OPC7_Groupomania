@@ -7,18 +7,19 @@ const { request } = require('express');
 const jwt = require("jsonwebtoken");
 
 exports.createPost = (req, res, next) =>{
-    if(!req.body.postText && req.body.imgUrl){
+    if(!req.body.postText && req.file){
+        console.log(req.file)
         const post = models.Post.create({
+            imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
             userName: req.body.userName,
             userId: req.body.userId,
-            imgUrl: req.body.imgUrl
     })
         .then((post) => {
             res.status(201).json({
                 message: "only image post created"
             })
         })
-    } else if (req.body.postText && !req.body.imgUrl){
+    } else if (req.body.postText && !req.file){
         const post = models.Post.create({
             userName: req.body.userName,
             userId: req.body.userId,
@@ -29,7 +30,7 @@ exports.createPost = (req, res, next) =>{
                 message: "only text post created"
             })
         })
-    } else if (req.body.postText && req.body.imgUrl) {
+    } else if (req.body.postText && req.file) {
         const post = models.Post.create({
             userName: req.body.userName,
             userId: req.body.userId,

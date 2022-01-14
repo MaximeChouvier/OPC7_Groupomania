@@ -3,6 +3,7 @@ const express = require('express');
 const path = require("path")
 const app = express();
 
+
 //Cors setup
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -25,6 +26,6 @@ const postRoutes = require("./app/routes/post");
 app.use(express.json())
 app.use("/api/auth", userRoutes);
 app.use("/api/auth", postRoutes);
-
+app.use('./app/uploads', express.static(path.join(__dirname, 'app/uploads')));
 
 module.exports = app;

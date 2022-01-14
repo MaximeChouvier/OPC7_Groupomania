@@ -113,7 +113,8 @@ exports.getUserProfileInfo = (req, res, next) => {
           message: "User found, returning values",
           firstname: user.firstname,
           name: user.name,
-          isAdmin: user.isAdmin
+          isAdmin: user.isAdmin,
+          id: user.id
         })
     })
     .catch((error) => {error})

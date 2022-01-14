@@ -2,14 +2,34 @@
     <div id="postContainer">
         <div v-for="post in posts" :key="post.id" class="postWrapper">
             <div class="post-upper">
+                <i v-if="post.userId === userInfo.id" class="fas fa-trash trashButton" @click="deleteThisPost(post.id, )"></i>
+                <i v-else-if="userInfo.isAdmin == 1" class="fas fa-trash trashButton" @click="deleteThisPost(post.id, )"></i>
                 <img class="post-userPicture" src="../assets/profilholder.jpg">
                 <h1 class="post-userName">{{post.userName}}</h1>
             </div>
             <div class="post-content">
                 <p>{{post.postText}}</p>
             </div>
-            <i class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
-           
+            <form class="commentForm">
+                <input class="commentInput" maxlength="100" type="text" placeholder="Commentez ce post">
+                <button class="commentButton" type="submit">Commenter</button>
+            </form>
+            <div class="commentWrapper">
+                <div class="comment-upper">
+                    <img class="commentImage" src="../assets/profilholder.jpg" alt="">
+                    <p class="commentName">Benjamin sseur</p>
+                </div>
+                <p class="commentText">Lorem Lorem ipsum dolor sit ipsum dolor sit  Lorem ipsum dolor sit  Lorem ipsum dolor sit amet, consectetur</p>
+            </div>
+            <div class="commentWrapper">
+                <div class="comment-upper">
+                    <i v-if="post.userId === userInfo.id" class="fas fa-trash trashButton" @click="deleteThisComment(post.id, )"></i>
+                    <i v-else-if="userInfo.isAdmin == 1" class="fas fa-trash trashButton" @click="deleteThisComment(post.id, )"></i>
+                    <img class="commentImage" src="../assets/profilholder.jpg" alt="">
+                    <p class="commentName">Benjamin sseur</p>
+                </div>
+                <p class="commentText">Lorem Lorem ipsum dolor sit ipsum dolor sit  Lorem ipsum dolor sit  Lorem ipsum dolor sit amet, consectetur</p>
+            </div>
         </div>
     </div>
 
@@ -22,7 +42,8 @@ export default{
     name: "feedPosts",
     data(){
         return{
-            posts: []
+            posts: [],
+            userInfo: {},
         }
     },
     methods: {
@@ -33,33 +54,23 @@ export default{
             axios
                 .put("http://localhost:3000/api/auth/deletePost", data)
                 this.$router.go(0);
-        }
+        },
     },
-mounted() {
-    let token = localStorage.getItem("token");
-    let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
-    axios
-        .get("http://localhost:3000/api/auth/getAllPosts")
-        .then((res) => {
-            this.posts = res.data.posts
-        })
-    axios
-        .post("http://localhost:3000/api/auth/getUserProfileInfo", {userId : decodedToken.userId})
-        .then((res) => {
-            if(res.data.isAdmin == false) {
-                document.querySelectorAll('.trashButton').forEach(function(el) {
-                el.style.display = 'none';
-                });
-            } else {
-
-            }
-        })
-
+    mounted() {
+        let token = localStorage.getItem("token");
+        let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
+            axios
+            .post("http://localhost:3000/api/auth/getUserProfileInfo", {userId : decodedToken.userId})
+            .then((res) => {
+                this.userInfo = res.data
+            })
+        axios
+            .get("http://localhost:3000/api/auth/getAllPosts")
+            .then((res) => {
+                this.posts = res.data.posts
+            })
+    }
 }
-
-
-}
-
 
 </script>
 
@@ -71,8 +82,7 @@ mounted() {
     border-radius: 10px;
     margin: 20px 0px 20px 0px;
     min-width: 300px;
-    min-height: 230px;;
-    max-height: 230px;;
+    min-height: 230px;
 
 }
 .post-upper{
@@ -82,6 +92,7 @@ mounted() {
 
     display:flex;
     justify-content: space-around;
+    align-items: center;
 }
 .post-userPicture{
     height: 50px;
@@ -98,8 +109,41 @@ mounted() {
 }
 .fa-trash{
     position: relative;
-    top: -95px;
-    left: 1px;
     z-index: 0;
+    height: 10px;
+}
+.commentForm{
+    display: flex;
+    justify-content: space-around;
+}
+.commentInput{
+    min-width: 270px;
+    top: 20px;
+}
+.commentButton{
+    background-color: #75faedad ;
+    padding: 5px;
+    border: none;
+    color: black;
+    border-radius: 20px;
+}
+.commentWrapper{
+    text-align: justify;
+    background-color: rgba(0, 0, 0, 0.199);
+    border-top: 1px solid #171123;
+    border-bottom: 1px solid #171123;
+}
+.commentImage{
+    height: 40px;
+    width: 40px;
+}
+.comment-upper{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-bottom: 1px #171123 solid;
+}
+.commentText{
+    text-align: justify;
 }
 </style>
