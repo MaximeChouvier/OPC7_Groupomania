@@ -8,7 +8,6 @@ const jwt = require("jsonwebtoken");
 
 exports.createPost = (req, res, next) =>{
     if(!req.body.postText && req.file){
-        console.log(req.file)
         const post = models.Post.create({
             imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
             userName: req.body.userName,
@@ -35,7 +34,8 @@ exports.createPost = (req, res, next) =>{
             userName: req.body.userName,
             userId: req.body.userId,
             postText: req.body.postText,
-            imgUrl: req.body.imgUrl
+            imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
+
     })
         .then((post) => {
             res.status(201).json({

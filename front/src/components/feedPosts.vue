@@ -8,13 +8,18 @@
                 <h1 class="post-userName">{{post.userName}}</h1>
             </div>
             <div class="post-content">
-                <p>{{post.postText}}</p>
+                <p v-if="post.postText && !post.imgUrl"> only text : {{post.postText}}</p>
+                <img class="postImage" v-if="!post.postText && post.imgUrl" :src="post.imgUrl">
+                <div v-if="post.postText && post.imgUrl">
+                    <img class="postImage" :src="post.imgUrl">
+                    <p>{{post.postText}}</p>
+                </div>
             </div>
             <form class="commentForm">
                 <input class="commentInput" maxlength="100" type="text" placeholder="Commentez ce post">
                 <button class="commentButton" type="submit">Commenter</button>
             </form>
-            <div class="commentWrapper">
+            <!-- <div class="commentWrapper">
                 <div class="comment-upper">
                     <img class="commentImage" src="../assets/profilholder.jpg" alt="">
                     <p class="commentName">Benjamin sseur</p>
@@ -29,7 +34,7 @@
                     <p class="commentName">Benjamin sseur</p>
                 </div>
                 <p class="commentText">Lorem Lorem ipsum dolor sit ipsum dolor sit  Lorem ipsum dolor sit  Lorem ipsum dolor sit amet, consectetur</p>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -67,6 +72,7 @@ export default{
         axios
             .get("http://localhost:3000/api/auth/getAllPosts")
             .then((res) => {
+                console.log(res)
                 this.posts = res.data.posts
             })
     }
@@ -106,6 +112,16 @@ export default{
     padding: 5px;
     text-align: justify;
     display: flex;
+}
+.postImage{
+    height: 200px;
+    width: 360px;
+}
+
+.post-content p{
+    text-align: justify;
+    word-wrap: break-word;
+    max-width: 100%;
 }
 .fa-trash{
     position: relative;
