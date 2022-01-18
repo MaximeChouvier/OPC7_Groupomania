@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="the-chosen-div">
         <feedNav/>
         <feedPosts/>
     </div>
@@ -18,6 +18,8 @@ export default {
 }
 </script>
 <style scoped>
-
+.the-chosen-div{
+  padding-bottom: 20% ;
+}
 </style>
 

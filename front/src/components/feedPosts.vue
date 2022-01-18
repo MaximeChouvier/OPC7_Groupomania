@@ -2,8 +2,8 @@
     <div id="postContainer">
         <div v-for="post in posts" :key="post.id" class="postWrapper">
             <div class="post-upper">
-                <i v-if="post.userId === userInfo.id" class="fas fa-trash trashButton" @click="deleteThisPost(post.id, )"></i>
-                <i v-else-if="userInfo.isAdmin == 1" class="fas fa-trash trashButton" @click="deleteThisPost(post.id, )"></i>
+                <i v-if="post.userId === userInfo.id" class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
+                <i v-else-if="userInfo.isAdmin == 1" class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
                 <img class="post-userPicture" src="../assets/profilholder.jpg">
                 <h1 class="post-userName">{{post.userName}}</h1>
             </div>
@@ -16,25 +16,16 @@
                 </div>
             </div>
             <form class="commentForm">
-                <input class="commentInput" maxlength="100" type="text" placeholder="Commentez ce post">
-                <button class="commentButton" type="submit">Commenter</button>
+                <input class="commentInput" v-model="commentInput" maxlength="100" type="text" placeholder="Commentez ce post">
+                <div class="commentButton" @click="createComment(post.id)">Commenter</div>
             </form>
-            <!-- <div class="commentWrapper">
+            <div class="commentWrapper">
                 <div class="comment-upper">
                     <img class="commentImage" src="../assets/profilholder.jpg" alt="">
                     <p class="commentName">Benjamin sseur</p>
                 </div>
                 <p class="commentText">Lorem Lorem ipsum dolor sit ipsum dolor sit  Lorem ipsum dolor sit  Lorem ipsum dolor sit amet, consectetur</p>
             </div>
-            <div class="commentWrapper">
-                <div class="comment-upper">
-                    <i v-if="post.userId === userInfo.id" class="fas fa-trash trashButton" @click="deleteThisComment(post.id, )"></i>
-                    <i v-else-if="userInfo.isAdmin == 1" class="fas fa-trash trashButton" @click="deleteThisComment(post.id, )"></i>
-                    <img class="commentImage" src="../assets/profilholder.jpg" alt="">
-                    <p class="commentName">Benjamin sseur</p>
-                </div>
-                <p class="commentText">Lorem Lorem ipsum dolor sit ipsum dolor sit  Lorem ipsum dolor sit  Lorem ipsum dolor sit amet, consectetur</p>
-            </div> -->
         </div>
     </div>
 
@@ -49,6 +40,7 @@ export default{
         return{
             posts: [],
             userInfo: {},
+            commentInput: "",
         }
     },
     methods: {
@@ -60,6 +52,19 @@ export default{
                 .put("http://localhost:3000/api/auth/deletePost", data)
                 this.$router.go(0);
         },
+        createComment(postId){
+            if(!this.commentInput){
+                console.log("no comment text")
+            } else {
+                const data = {
+                userId: this.userInfo.id,
+                postId: postId,
+                commentText: this.commentInput,
+                }
+                axios
+                    .post("http://localhost:3000/api/auth/createComment", data)
+            }
+        }
     },
     mounted() {
         let token = localStorage.getItem("token");
@@ -69,7 +74,7 @@ export default{
             .then((res) => {
                 this.userInfo = res.data
             })
-        axios
+            axios
             .get("http://localhost:3000/api/auth/getAllPosts")
             .then((res) => {
                 console.log(res)

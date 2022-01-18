@@ -63,3 +63,11 @@ exports.deletePost = (req, res, next) => {
         }
     })
 }
+
+exports.createComment = (req, res ,next) => {
+    const comment = models.Comment.create({
+        userId: req.body.userId,
+        postId: req.body.postId,
+        commentText: req.body.commentText,
+    })
+}
