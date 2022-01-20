@@ -38,37 +38,36 @@ export default {
     async modifyAccInfo(){
       var token = localStorage.getItem("token");
       let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
-      const data = {
-        userId: decodedToken.userId,
-        email: this.email,
-        password: this.password
-      };
-      await axios
-      .put("http://localhost:3000/api/auth/EditAccount", data)
-      .then((res) =>{
-        if (res.status == 200){
-          alert("Identifiants modifiés !")
-          this.$router.push("/Profile")
-        } else { 
-          console.log("Erreur, Aucun changements")
+
+      const imageFile = document.querySelector("input[type=file]").files[0];
+      if (this.modifyAccInfo != "" || imageFile) {
+        const formData = new FormData();
+        formData.append("email", this.email);
+        formData.append("userId", decodedToken.userId);
+        formData.append("password", this.password);
+
+        if (imageFile) {
+          formData.append("image", imageFile);
         }
-      console.log(res)
-      })
-      .catch((error) => {
-       this.error = error.response.data;
-        console.log(error.response.data);
-      });   
-      },
-    // updateProfileImg(){
-    //   axios
-    //     .post('http://localhost:3000/api/auth/EditPicture', upload.single('avatar', function (req, res ,next) {
-          
-    //     }))
-    //     .then((res) => {
-
-    //     });
-    // }
-
+        axios
+        .put("http://localhost:3000/api/auth/EditAccount", {
+          body: formData,
+        })
+        .then((res) =>{
+          if (res.status == 200){
+            alert("Identifiants modifiés !")
+            this.$router.push("/Profile")
+          } else { 
+            console.log("Erreur, Aucun changements")
+          }
+          console.log(res)
+        })
+        .catch((error) => {
+        this.error = error.response.data;
+          console.log(error.response.data);
+        });   
+      }
+    },
   }
 
 }

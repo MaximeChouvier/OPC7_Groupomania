@@ -19,13 +19,17 @@
                 <input class="commentInput" v-model="commentInput" maxlength="100" type="text" placeholder="Commentez ce post">
                 <div class="commentButton" @click="createComment(post.id)">Commenter</div>
             </form>
-            <div class="commentWrapper">
-                <div class="comment-upper">
-                    <img class="commentImage" src="../assets/profilholder.jpg" alt="">
-                    <p class="commentName">Benjamin sseur</p>
-                </div>
-                <p class="commentText">Lorem Lorem ipsum dolor sit ipsum dolor sit  Lorem ipsum dolor sit  Lorem ipsum dolor sit amet, consectetur</p>
-            </div>
+                <div class="commentWrapper" v-for="comment in comments" :key="comment.id" >
+
+                    <div v-if="comment.id != post.id">
+                    <div class="comment-upper">
+                        <img class="commentImage" src="../assets/profilholder.jpg" alt="">
+                        <p class="commentName">Benjamin sseur</p>
+                    </div>
+                    <p class="commentText">{{comment.commentText}}</p>
+                    </div>  
+                </div>     
+                         
         </div>
     </div>
 
@@ -40,6 +44,7 @@ export default{
         return{
             posts: [],
             userInfo: {},
+            comments:[],
             commentInput: "",
         }
     },
@@ -77,8 +82,13 @@ export default{
             axios
             .get("http://localhost:3000/api/auth/getAllPosts")
             .then((res) => {
-                console.log(res)
                 this.posts = res.data.posts
+            })
+            axios
+            .get("http://localhost:3000/api/auth/getAllComment")
+            .then((res) => {
+                console.log(res.data)
+                this.comments = res.data.comment
             })
     }
 }

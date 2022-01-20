@@ -74,11 +74,11 @@ console.log(req.body.userId)
 };
 
 exports.EditAccount = (req, res ,next) => {
-  if (!req.body.email && !req.body.password) {
-    //no email, no password, error.
+  if (!req.body.email && !req.body.password && !req.body.file) {
+    //no email, no password, no img, error.
     res.status(500).json({message: "Nothing to update"})
-  } else if (!req.body.email && req.body.password){
-    //No email,only update password
+  } else if (!req.body.email && req.body.password && !req.body.file){
+    //only update password
     bcrypt
     .hash(req.body.password, 10)
       .then((hash) => {
@@ -92,7 +92,8 @@ exports.EditAccount = (req, res ,next) => {
         })
       })
     res.status(200).json({message: "Password Updated"})
-  } else if (req.body.email && !req.body.password){
+  } else if (req.body.email && !req.body.password && !req.body.file){
+    //only update email
     let updated = {
       email: req.body.email
     }
@@ -101,8 +102,17 @@ exports.EditAccount = (req, res ,next) => {
         id: req.body.userId
       }
     })
-    //no password, only update email
+    
     res.status(200).json({message: "Email Updated"})
+  } else if (!req.body.email && !req.body.password && req.body.file) {
+    //only update img
+    
+  } else if (req.body.email && !req.body.password && req.body.file) {
+    //update email && img
+  } else if (!req.body.email && req.body.password && req.body.file) {
+    //update password && email
+  } else if (!req.body.email && req.body.password && req.body.file) {
+    //update everything
   }
 };
 

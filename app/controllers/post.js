@@ -71,3 +71,10 @@ exports.createComment = (req, res ,next) => {
         commentText: req.body.commentText,
     })
 }
+
+exports.getAllComment = (req, res ,next) => {
+    models.Comment.findAll()
+    .then((comment) => {
+        res.status(200).json({comment})
+    })
+}

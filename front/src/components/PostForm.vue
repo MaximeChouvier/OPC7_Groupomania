@@ -30,49 +30,32 @@ export default{
             this.$router.push("/feed")
         },
         newPost(){
-        let token = localStorage.getItem("token");
-        let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
-        let fullName = decodedToken.name + " " + decodedToken.firstname
+            let token = localStorage.getItem("token");
+            let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
+            let fullName = decodedToken.name + " " + decodedToken.firstname
 
-        const imageFile = document.querySelector("input[type=file]").files[0];
-        if (this.newPost != "" || imageFile) {
-        const formData = new FormData();
-        formData.append("postText", this.postText);
-        formData.append("userName", fullName);
-        formData.append("userId", decodedToken.userId);
-        if (imageFile) {
-          formData.append("image", imageFile);
-        }
-        fetch("http://localhost:3000/api/auth/createPost", {
-          method: "POST",
-          body: formData,
-        //   headers: {
-        //     Authorization: "Bearer " + this.$store.state.user.token,
-        //   },
-        
-        })
-        .then(() => {
-            console.log("ok")
-        })
-        .catch(() => {
-            console.log("pas cool")
-        })
-        }
-    //   } else {
-    //     this.errorMessage = "A post cannot be empty";
-    //     setTimeout(() => {
-    //       this.errorMessage = "";
-    //     }, 3000);
-    //   }
+            const imageFile = document.querySelector("input[type=file]").files[0];
+            if (this.newPost != "" || imageFile) {
+                const formData = new FormData();
+                formData.append("postText", this.postText);
+                formData.append("userName", fullName);
+                formData.append("userId", decodedToken.userId);
 
-            // axios
-            //     .post("http://localhost:3000/api/auth/createPost", data)
-            //         .then(() => {
-            //             this.$router.push("/feed")
-            //         })
-            //         .catch(() => {
-
-            //         })
+                if (imageFile) {
+                    formData.append("image", imageFile);
+                }
+                
+                fetch("http://localhost:3000/api/auth/createPost", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then(() => {
+                    console.log("ok")
+                })
+                .catch(() => {
+                    console.log("pas cool")
+                })
+            }
         },
 
     },
