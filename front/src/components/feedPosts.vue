@@ -83,13 +83,18 @@ export default{
             .get("http://localhost:3000/api/auth/getAllPosts")
             .then((res) => {
                 this.posts = res.data.posts
+                axios
+                .get("http://localhost:3000/api/auth/getAllComment")
+                .then((res) => {
+                    this.posts.forEach(post => {
+                        console.log(res, post)
+                })
+                })
+
+
             })
-            axios
-            .get("http://localhost:3000/api/auth/getAllComment")
-            .then((res) => {
-                console.log(res.data)
-                this.comments = res.data.comment
-            })
+
+
     }
 }
 

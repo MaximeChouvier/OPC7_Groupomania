@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import axios from "axios";
 let jwt = require("jsonwebtoken");
 export default {
   name: 'EditAccount',
@@ -49,8 +48,8 @@ export default {
         if (imageFile) {
           formData.append("image", imageFile);
         }
-        axios
-        .put("http://localhost:3000/api/auth/EditAccount", {
+        fetch("http://localhost:3000/api/auth/EditAccount", {
+          method: "PUT",
           body: formData,
         })
         .then((res) =>{
@@ -63,7 +62,6 @@ export default {
           console.log(res)
         })
         .catch((error) => {
-        this.error = error.response.data;
           console.log(error.response.data);
         });   
       }

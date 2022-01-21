@@ -73,6 +73,7 @@ exports.createComment = (req, res ,next) => {
 }
 
 exports.getAllComment = (req, res ,next) => {
+    console.log(req.body)
     models.Comment.findAll()
     .then((comment) => {
         res.status(200).json({comment})

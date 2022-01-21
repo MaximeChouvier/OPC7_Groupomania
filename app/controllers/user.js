@@ -5,6 +5,7 @@ const router = express.Router();
 const models = require("../models");
 const { request } = require('express');
 const jwt = require("jsonwebtoken");
+const { where } = require('sequelize');
 
 exports.signup = (req, res, next) => {
 models.User.findOne({where : {email: req.body.email}})
@@ -74,25 +75,25 @@ console.log(req.body.userId)
 };
 
 exports.EditAccount = (req, res ,next) => {
-  if (!req.body.email && !req.body.password && !req.body.file) {
+  if (!req.body.email && !req.body.password && !req.file) {
     //no email, no password, no img, error.
     res.status(500).json({message: "Nothing to update"})
-  } else if (!req.body.email && req.body.password && !req.body.file){
+  } else if (!req.body.email && req.body.password && !req.file){
     //only update password
     bcrypt
     .hash(req.body.password, 10)
       .then((hash) => {
-        let updated = {
+        let update = {
           password: hash
         }
-        models.User.update(updated, {
+        models.User.update(update, {
           where: {
             id: req.body.userId
           }
         })
       })
     res.status(200).json({message: "Password Updated"})
-  } else if (req.body.email && !req.body.password && !req.body.file){
+  } else if (req.body.email && !req.body.password && !req.file){
     //only update email
     let updated = {
       email: req.body.email
@@ -104,15 +105,78 @@ exports.EditAccount = (req, res ,next) => {
     })
     
     res.status(200).json({message: "Email Updated"})
-  } else if (!req.body.email && !req.body.password && req.body.file) {
+  } else if (!req.body.email && !req.body.password && req.file) {
     //only update img
-    
-  } else if (req.body.email && !req.body.password && req.body.file) {
+    let update = {
+      imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
+    }
+    models.User.update(update, {
+      where: {
+        id: req.body.userId
+      }
+    })
+    res.status(200).json({message: "image updated"})
+  } else if (req.body.email && !req.body.password && req.file) {
     //update email && img
-  } else if (!req.body.email && req.body.password && req.body.file) {
+    let update = {
+      email: req.body.email,
+      imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
+    }
+    models.User.update(update, {
+      where: {
+        id: req.body.userId,
+      }
+    })
+    res.status(200).json({message: "Email & image Updated"})
+  } else if (req.body.email && req.body.password && !req.file) {
     //update password && email
-  } else if (!req.body.email && req.body.password && req.body.file) {
+    bcrypt
+    .hash(req.body.password, 10)
+      .then((hash) => {
+        let update = {
+          password: hash,
+          email:req.body.email
+        }
+        models.User.update(update, {
+          where: {
+            id: req.body.userId
+          }
+        })
+      })
+    res.status(200).json({message: "password & image Updated"})
+  } else if (!req.body.email && req.body.password && req.file) {
+    //update password && image
+    bcrypt
+    .hash(req.body.password, 10)
+      .then((hash) => {
+        let update = {
+          password: hash,
+          imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
+        }
+        models.User.update(update, {
+          where: {
+            id: req.body.userId
+          }
+        })
+      })
+    res.status(200).json({message: "Updated password & image"})
+  } else if (req.body.email && req.body.password && req.file) {
     //update everything
+    bcrypt
+    .hash(req.body.password, 10)
+      .then((hash) => {
+        let update = {
+          password: hash,
+          email: req.body.email,
+          imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
+        }
+        models.User.update(update, {
+          where: {
+            id: req.body.userId
+          }
+        })
+      })
+    res.status(200).json({message: "Updated everything"})
   }
 };
 
