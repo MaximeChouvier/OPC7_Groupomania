@@ -4,7 +4,7 @@
             <div class="post-upper">
                 <i v-if="post.userId === userInfo.id" class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
                 <i v-else-if="userInfo.isAdmin == 1" class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
-                <img class="post-userPicture" src="../assets/profilholder.jpg">
+                <img class="post-userPicture" :src="userInfo.imgUrl">
                 <h1 class="post-userName">{{post.userName}}</h1>
             </div>
             <div class="post-content">

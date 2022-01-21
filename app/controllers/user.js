@@ -188,7 +188,8 @@ exports.getUserProfileInfo = (req, res, next) => {
           firstname: user.firstname,
           name: user.name,
           isAdmin: user.isAdmin,
-          id: user.id
+          id: user.id,
+          imgUrl: user.imgUrl
         })
     })
     .catch((error) => {error})

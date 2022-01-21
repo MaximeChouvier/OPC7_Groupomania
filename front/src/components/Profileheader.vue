@@ -1,7 +1,7 @@
 <template>
     <div class="ProfileHeader">
         <div class="ProfileHeader_top">
-            <img class="ProfileHeader_UserPicture" src="../assets/logo.png">
+            <img id="ProfileHeader_UserPicture" src="../assets/logo.png">
             <h1 id="userName" class="ProfileHeader_UserName">UserName</h1>
         </div>
         <div class="ProfileHeader_bottom">
@@ -53,7 +53,9 @@ mounted() {
         .post("http://localhost:3000/api/auth/getUserProfileInfo", {userId : decodedToken.userId})
         .then((res) => {
             let userName = document.getElementById("userName")
+            let userImage = document.getElementById("ProfileHeader_UserPicture")
             userName.innerHTML = res.data.name + " " + res.data.firstname
+            userImage.src = res.data.imgUrl;
             if (res.data.isAdmin == 1) {
                 userName.style.color = "#75faedad";
             }
