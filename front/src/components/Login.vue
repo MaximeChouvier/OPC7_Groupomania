@@ -4,11 +4,11 @@
         
         <h1>Connection</h1>
 
-        <h2>Email</h2>
-        <input type="email" class="formInput" name="Login.Email" v-model="email">
-
-        <h2>Mot de passe</h2>
-        <input type="password" class="formInput" name="Login.Password" v-model="password">
+        <label for="Login.Email">Email</label>
+        <input type="email" class="formInput" id="Login.Email" v-model="email">
+        
+        <label for="Login.Password">Mot de passe</label>
+        <input type="password" class="formInput" id="Login.Password" v-model="password">
 
         <button class="formButton" @click="sendLoginRequest">Ce connecter</button>
     </div>
@@ -61,5 +61,10 @@ export default {
   margin-top: 20px;
   padding: 14px;
   font-size: 16px;
+}
+label{
+  font-size: 20px;
+  margin: 10px 0px 10px 0px;
+  font-weight: bold;
 }
 </style>

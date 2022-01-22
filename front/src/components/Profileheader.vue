@@ -1,7 +1,7 @@
 <template>
     <div class="ProfileHeader">
         <div class="ProfileHeader_top">
-            <img id="ProfileHeader_UserPicture" src="../assets/logo.png">
+            <img alt="an user profile image" id="ProfileHeader_UserPicture" src="../assets/logo.png">
             <h1 id="userName" class="ProfileHeader_UserName">UserName</h1>
         </div>
         <div class="ProfileHeader_bottom">

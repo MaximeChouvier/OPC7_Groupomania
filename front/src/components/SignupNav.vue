@@ -1,6 +1,6 @@
 <template>
     <div class="nav">
-      <h3>Vous avez déja un compte ? <br><router-link to="/">Connection</router-link></h3>
+      <h2>Vous avez déja un compte ? <br><router-link to="/">Connection</router-link></h2>
     </div>
 </template>
 
@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style scoped>
+h2{
+  font-size: 20px;
+}
 .nav{
   margin-top: 325px;
 text-align: center;

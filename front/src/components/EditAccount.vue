@@ -3,8 +3,11 @@
       <h1>Modifier vôtre compte</h1>
 
     <div class="editForm">
-      <input type="text" class="formInput" name="Login.Email" placeholder="Changer d'Email" v-model="email">
-      <input type="password" class="formInput" name="Login.Email" placeholder="Changer de mot de passe" v-model="password">
+      <label for="Login.Email">Email</label>
+      <input type="text" class="formInput" id="Login.Email" placeholder="Changer d'Email" v-model="email">
+      
+      <label for="Login.Password">Mot de passe</label>
+      <input type="password" class="formInput" id="Login.Password" placeholder="Changer de mot de passe" v-model="password">
      
       <div class="buttonZone">
         <button class="EditAccountButton" @click="modifyAccInfo">Modifier mes identifiants</button>
@@ -95,6 +98,8 @@ h1{
   display: flex;
 }
 .EditImage{
+  position: relative;
+  right: 85px;
   background-color:#75faedad ;
   margin: 10px 5px 20px 5px;
 }
@@ -113,10 +118,11 @@ button{
   font-size: 14px;
 }
 .centered{
+
 margin-top: 20px;
 display: flex;
-align-items: center;
-justify-content: center;
+max-width: 100px;
 flex-wrap: wrap;
+margin: auto;
 }
 </style>

@@ -1,9 +1,11 @@
 <template>
     <div class="nav">
         <form>
+            <label for="postText">Texte</label>
             <textarea v-model="postText" id="postText"
             cols="30" rows="10" maxlength="270"></textarea>
 
+            <label for="postImage">Image</label>
             <input type="file" id="postImage" name="postImage" 
             accept="image/png, image/jpeg" title=" ">
             <button @click="newPost">
@@ -49,11 +51,11 @@ export default{
                     method: "POST",
                     body: formData,
                 })
-                .then(() => {
-                    console.log("ok")
+                .then((res) => {
+                    console.log(res)
                 })
-                .catch(() => {
-                    console.log("pas cool")
+                .catch((error) => {
+                    console.log(error)
                 })
             }
         },
@@ -66,6 +68,8 @@ export default{
     form{
         display: flex;
         justify-content: center;
+        margin: auto;
+        max-width: 250px;
         flex-wrap: wrap;  
     }
     form * {

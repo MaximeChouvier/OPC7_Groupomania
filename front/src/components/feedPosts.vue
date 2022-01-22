@@ -1,10 +1,10 @@
 <template>
     <div id="postContainer">
-        <div v-for="post in posts" :key="post.id" class="postWrapper">
+        <div v-for="(post, i) in posts" :key="post.id" class="postWrapper">
             <div class="post-upper">
                 <i v-if="post.userId === userInfo.id" class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
                 <i v-else-if="userInfo.isAdmin == 1" class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
-                <img class="post-userPicture" :src="userInfo.imgUrl">
+                <img class="post-userPicture" alt="an user profile image" :src="userInfo.imgUrl">
                 <h1 class="post-userName">{{post.userName}}</h1>
             </div>
             <div class="post-content">
@@ -16,8 +16,8 @@
                 </div>
             </div>
             <form class="commentForm">
-                <input class="commentInput" v-model="commentInput" maxlength="100" type="text" placeholder="Commentez ce post">
-                <div class="commentButton" @click="createComment(post.id)">Commenter</div>
+                <input id="commentInput" v-model="commentInput[i]" maxlength="100" type="text" placeholder="Commentez ce post">
+                <div class="commentButton" @click="createComment(post.id, i)">Commenter</div>
             </form>
                 <div class="commentWrapper" v-for="comment in comments" :key="comment.id" >
 
@@ -45,7 +45,7 @@ export default{
             posts: [],
             userInfo: {},
             comments:[],
-            commentInput: "",
+            commentInput:[],
         }
     },
     methods: {
@@ -57,14 +57,16 @@ export default{
                 .put("http://localhost:3000/api/auth/deletePost", data)
                 this.$router.go(0);
         },
-        createComment(postId){
-            if(!this.commentInput){
+        createComment(postId, i){
+            let inputContent = this.commentInput[i]
+            console.log(inputContent)
+            if(!inputContent){
                 console.log("no comment text")
             } else {
                 const data = {
-                userId: this.userInfo.id,
-                postId: postId,
-                commentText: this.commentInput,
+                    userId: this.userInfo.id,
+                    postId: postId,
+                    commentText: inputContent,
                 }
                 axios
                     .post("http://localhost:3000/api/auth/createComment", data)
@@ -86,12 +88,14 @@ export default{
                 axios
                 .get("http://localhost:3000/api/auth/getAllComment")
                 .then((res) => {
+                    // console.log(res.data)
                     this.posts.forEach(post => {
-                        console.log(res, post)
-                })
-                })
+                    let comments = res.data.comment.filter(element => element.postId === post.id)
+                    console.log(comments)
+                    post.push(comments)
 
-
+                })
+            })
             })
 
 
@@ -101,14 +105,19 @@ export default{
 </script>
 
 <style scoped>
+label{
+    font-size: 14px;
+}
 .postWrapper{
     background: linear-gradient(45deg, #372248 0%,  #414770
  100%);
     border: 1px solid rgba(23, 3, 34, 0.726);
     border-radius: 10px;
-    margin: 20px 0px 20px 0px;
+
+    margin: 20px auto 20px auto;
     min-width: 300px;
     min-height: 230px;
+    max-width: 400px;
 
 }
 .post-upper{

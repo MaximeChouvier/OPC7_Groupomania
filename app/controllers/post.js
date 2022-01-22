@@ -44,7 +44,6 @@ exports.createPost = (req, res, next) =>{
         })
     } else{
         res.status(500).json({message: "empty post"})
-        
     }
 }
 

@@ -3,17 +3,18 @@
     <div class="formWrapper">
         <h1>Inscription</h1>
 
-        <h2>Email</h2>
-        <input type="email" class="formInput" name="Login.Email" v-model="email">
 
-        <h2>Nom</h2>
-        <input type="text" class="formInput" name="Login.name" v-model="name">
+        <label for="Login.Email">Email</label>
+        <input type="email" class="formInput" id="Login.Email" v-model="email">
 
-        <h2>Prénom</h2>
-        <input type="text" class="formInput" name="Login.Firstname" v-model="firstname">
+        <label for="Login.name">Nom</label>
+        <input type="text" class="formInput" id="Login.name" v-model="name">
 
-        <h2>Mot de passe</h2>
-        <input type="password" class="formInput" name="Login.Password" v-model="password">
+        <label for="Login.Firstname">Prénom</label>
+        <input type="text" class="formInput" id="Login.Firstname" v-model="firstname">
+
+        <label for="Login.Password">Mot de passe</label>
+        <input type="password" class="formInput" id="Login.Password" v-model="password">
 
         <button class="formButton" @click="sendSignupRequest">S'inscrire</button>
     </div>
@@ -66,6 +67,11 @@ export default {
 </script>
 
 <style scoped>
+label{
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+}
 .formWrapper {
     margin: auto;
     display: flex;
