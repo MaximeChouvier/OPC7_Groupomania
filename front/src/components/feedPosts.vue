@@ -12,14 +12,14 @@
                 <img class="postImage" v-if="!post.postText && post.imgUrl" :src="post.imgUrl">
                 <div v-if="post.postText && post.imgUrl">
                     <img class="postImage" :src="post.imgUrl">
-                    <p>{{post.postText}}</p>
+                    <p>{{this.posts.post.postText}}</p>
                 </div>
             </div>
             <form class="commentForm">
                 <input id="commentInput" v-model="commentInput[i]" maxlength="100" type="text" placeholder="Commentez ce post">
                 <div class="commentButton" @click="createComment(post.id, i)">Commenter</div>
             </form>
-                <div class="commentWrapper" v-for="comment in comments" :key="comment.id" >
+                <div class="commentWrapper" v-for="comment in posts.comments" :key="comment.id" >
 
                     <div v-if="comment.id != post.id">
                     <div class="comment-upper">
@@ -43,8 +43,8 @@ export default{
     data(){
         return{
             posts: [],
+            unfilter: [],
             userInfo: {},
-            comments:[],
             commentInput:[],
         }
     },
@@ -59,7 +59,6 @@ export default{
         },
         createComment(postId, i){
             let inputContent = this.commentInput[i]
-            console.log(inputContent)
             if(!inputContent){
                 console.log("no comment text")
             } else {
@@ -84,17 +83,22 @@ export default{
             axios
             .get("http://localhost:3000/api/auth/getAllPosts")
             .then((res) => {
-                this.posts = res.data.posts
+                this.unfilter = res.data.posts
                 axios
                 .get("http://localhost:3000/api/auth/getAllComment")
                 .then((res) => {
-                    // console.log(res.data)
-                    this.posts.forEach(post => {
-                    let comments = res.data.comment.filter(element => element.postId === post.id)
-                    console.log(comments)
-                    post.push(comments)
+                    let filtered = []
 
+                    this.unfilter.forEach(post => {
+                    let x = res.data.comment.filter(element => element.postId === post.id)
+                    let obj = {
+                        post: post,
+                        comments: x,
+                    }
+                    filtered.push(obj)
                 })
+                this.posts = filtered
+                console.log(this.posts)
             })
             })
 
