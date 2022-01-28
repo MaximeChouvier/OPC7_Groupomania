@@ -1,6 +1,6 @@
 <template>
     <div id="postContainer">
-        <div v-for="(post, i) in posts" :key="post.id" class="postWrapper">
+        <div v-for="({post, comments}, i) in posts" :key="post.id" class="postWrapper">
             <div class="post-upper">
                 <i v-if="post.userId === userInfo.id" class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
                 <i v-else-if="userInfo.isAdmin == 1" class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
@@ -8,26 +8,23 @@
                 <h1 class="post-userName">{{post.userName}}</h1>
             </div>
             <div class="post-content">
-                <p v-if="post.postText && !post.imgUrl"> only text : {{post.postText}}</p>
+                <p v-if="post.postText && !post.imgUrl"> {{post.postText}}</p>
                 <img class="postImage" v-if="!post.postText && post.imgUrl" :src="post.imgUrl">
                 <div v-if="post.postText && post.imgUrl">
                     <img class="postImage" :src="post.imgUrl">
-                    <p>{{this.posts.post.postText}}</p>
+                    <p>{{post.postText}}</p>
                 </div>
             </div>
             <form class="commentForm">
                 <input id="commentInput" v-model="commentInput[i]" maxlength="100" type="text" placeholder="Commentez ce post">
                 <div class="commentButton" @click="createComment(post.id, i)">Commenter</div>
             </form>
-                <div class="commentWrapper" v-for="comment in posts.comments" :key="comment.id" >
-
-                    <div v-if="comment.id != post.id">
+                <div class="commentWrapper" v-for="comment in comments" :key="comment.id" >
                     <div class="comment-upper">
                         <img class="commentImage" src="../assets/profilholder.jpg" alt="">
                         <p class="commentName">Benjamin sseur</p>
                     </div>
                     <p class="commentText">{{comment.commentText}}</p>
-                    </div>  
                 </div>     
                          
         </div>
@@ -93,7 +90,7 @@ export default{
                     let x = res.data.comment.filter(element => element.postId === post.id)
                     let obj = {
                         post: post,
-                        comments: x,
+                        comments: x ,
                     }
                     filtered.push(obj)
                 })

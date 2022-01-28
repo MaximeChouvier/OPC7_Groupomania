@@ -55,7 +55,6 @@ exports.getAllPosts = (req, res ,next ) => {
 }
 
 exports.deletePost = (req, res, next) => {
-    console.log(req.body.postId)
     models.Post.destroy({
         where: {
             id: req.body.postId
@@ -72,7 +71,6 @@ exports.createComment = (req, res ,next) => {
 }
 
 exports.getAllComment = (req, res ,next) => {
-    console.log(req.body)
     models.Comment.findAll()
     .then((comment) => {
         res.status(200).json({comment})

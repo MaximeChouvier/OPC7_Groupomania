@@ -31,7 +31,8 @@ export default{
         pushToFeed(){
             this.$router.push("/feed")
         },
-        newPost(){
+        newPost(e){
+            e.preventDefault();
             let token = localStorage.getItem("token");
             let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
             let fullName = decodedToken.name + " " + decodedToken.firstname
@@ -53,6 +54,7 @@ export default{
                 })
                 .then((res) => {
                     console.log(res)
+                    this.$router.push("/feed")
                 })
                 .catch((error) => {
                     console.log(error)
