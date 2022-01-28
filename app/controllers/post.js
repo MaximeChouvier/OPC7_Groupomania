@@ -53,6 +53,38 @@ exports.getAllPosts = (req, res ,next ) => {
         res.status(200).json({posts})
     })
 }
+exports.editPost = (req, res, next) => {
+    console.log(req.body)
+    if(req.body.postText && !req.file){
+        let update = {
+            postText: req.body.postText
+        }
+        models.Posts.update(update, {
+            where: {
+            id: req.body.postId
+            }
+        })
+    }else if (!req.body.postText && req.file){
+        let update = {
+            imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
+        }
+        models.Posts.update(update, {
+            where: {
+            id: req.body.postId
+            }
+        })
+    } else if (req.body.postText && req.file){
+        let update = {
+            imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
+            postText: req.body.postText
+        }
+        models.Posts.update(update, {
+            where: {
+            id: req.body.postId
+            }
+        })
+    }
+}
 
 exports.deletePost = (req, res, next) => {
     models.Post.destroy({

@@ -1,12 +1,29 @@
 <template>
     <div id="postContainer">
+        <div id="editPost">
+            <h1 class="editPost_title">Editer le post</h1>
+            <form id="editPost_form">
+                <textarea v-model="editPost_text" id="editPost_formText" cols="30" rows="5" maxlength="270" placeholder="Nouveau texte"></textarea>
+                <input type="file" id="editPost_formImage" name="editPost_formImage" 
+                accept="image/png, image/jpeg" title=" ">
+                <button class="editPost_button" @click="editPost">
+                    Editer
+                </button>
+            </form>
+        </div>
         <div v-for="({post, comments}, i) in posts" :key="post.id" class="postWrapper">
+            
             <div class="post-upper">
                 <i v-if="post.userId === userInfo.id" class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
                 <i v-else-if="userInfo.isAdmin == 1" class="fas fa-trash trashButton" @click="deleteThisPost(post.id)"></i>
+                
+                <i v-if="post.userId === userInfo.id && post.postText" class="fas fa-edit" @click="editForm(post.id)"></i>
+                <i v-else-if="userInfo.isAdmin == 1 && post.postText" class="fas fa-edit" @click="editForm(post.id)"></i>
+                
                 <img class="post-userPicture" alt="an user profile image" :src="userInfo.imgUrl">
                 <h1 class="post-userName">{{post.userName}}</h1>
             </div>
+
             <div class="post-content">
                 <p v-if="post.postText && !post.imgUrl"> {{post.postText}}</p>
                 <img class="postImage" v-if="!post.postText && post.imgUrl" :src="post.imgUrl">
@@ -15,17 +32,19 @@
                     <p>{{post.postText}}</p>
                 </div>
             </div>
+
             <form class="commentForm">
                 <input id="commentInput" v-model="commentInput[i]" maxlength="100" type="text" placeholder="Commentez ce post">
                 <div class="commentButton" @click="createComment(post.id, i)">Commenter</div>
             </form>
-                <div class="commentWrapper" v-for="comment in comments" :key="comment.id" >
-                    <div class="comment-upper">
-                        <img class="commentImage" src="../assets/profilholder.jpg" alt="">
-                        <p class="commentName">Benjamin sseur</p>
-                    </div>
-                    <p class="commentText">{{comment.commentText}}</p>
-                </div>     
+
+            <div class="commentWrapper" v-for="comment in comments" :key="comment.id" >
+                <div class="comment-upper">
+                    <img class="commentImage" src="../assets/profilholder.jpg" alt="">
+                    <p class="commentName">id {{comment.userId}}</p>
+                </div>
+                <p class="commentText">{{comment.commentText}}</p>
+            </div>     
                          
         </div>
     </div>
@@ -43,6 +62,9 @@ export default{
             unfilter: [],
             userInfo: {},
             commentInput:[],
+
+            editingId: null,
+            editPost_text: "",
         }
     },
     methods: {
@@ -67,7 +89,40 @@ export default{
                 axios
                     .post("http://localhost:3000/api/auth/createComment", data)
             }
-        }
+        },
+        editForm(postId){
+            console.log(postId)
+            document.getElementById("editPost").style.display = "block"
+            document.getElementById("editPost_form").style.display = "inline"
+            this.editingId = postId
+            console.log(this.editingId)
+        },
+        editPost(e){
+            e.preventDefault();
+            const imageFile = document.querySelector("input[type=file]").files[0];
+            if (this.newPost != "" || imageFile) {
+                const formData = new FormData();
+                formData.append("postText", this.editPost_text);
+                formData.append("userId", this.userInfo.userId);
+                formData.append("postId", this.editingId);
+
+                if (imageFile) {
+                    formData.append("image", imageFile);
+                }
+
+                fetch("http://localhost:3000/api/auth/editPost", {
+                    method: "PUT",
+                    body: formData,
+                })
+                .then((res) => {
+                    console.log(res)
+
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            }
+        },
     },
     mounted() {
         let token = localStorage.getItem("token");
@@ -106,6 +161,37 @@ export default{
 </script>
 
 <style scoped>
+/* Edit post pop-up */
+#editPost{
+    background-color: rgba(0, 0, 0, 0.322);
+    
+}
+#editPost, #editPost_form{
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    display: none;
+}
+#editPost_form{
+    max-width: 300px;
+    margin: 10px;
+}
+textarea{
+    height: 100px;
+    border-radius: 5px;
+    background-color: #171123 ;
+    border: none;
+    resize: none;
+    margin: 10px;
+}
+.editPost_button{
+        background-color: #372248 ;
+        border: none;
+        padding:10px;
+        font-size: 15px;
+        margin: 10px;
+}
+
 label{
     font-size: 14px;
 }
@@ -153,10 +239,19 @@ label{
     word-wrap: break-word;
     max-width: 100%;
 }
-.fa-trash{
+.fas{
     position: relative;
     z-index: 0;
     height: 10px;
+}
+.commentButton, .fas:hover{
+    cursor: pointer ;
+}
+.fa-trash{
+    color: rgb(104, 23, 23);
+}
+.fa-edit{
+    color: rgb(23, 101, 104);
 }
 .commentForm{
     display: flex;

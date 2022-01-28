@@ -6,7 +6,9 @@ const multer = require("../middleware/multer-config")
 //Gestion des posts
 router.post("/createPost", multer, postCtrl.createPost);
 router.get("/getAllPosts", postCtrl.getAllPosts);
+router.put("/editPost", multer, postCtrl.editPost)
 router.put("/deletePost", postCtrl.deletePost)
+
 
 //Gestion des commentaires
 router.post("/createComment", postCtrl.createComment)
