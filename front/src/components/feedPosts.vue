@@ -166,7 +166,7 @@ export default{
                 text: this.editComment_text,
             }
             axios
-            .put("http://localhost:3000/api/auth/editPost", data)
+            .put("http://localhost:3000/api/auth/editComment", data)
             .then(() => {
                 this.$router.go(0)
             })

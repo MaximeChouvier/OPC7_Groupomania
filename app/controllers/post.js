@@ -131,7 +131,7 @@ exports.deleteComment = (req, res, next) => {
     res.send(200).json({message: "Comment deleted"})
 }
 
-exports.editPost = (req, res , next) => {
+exports.editComment = (req, res , next) => {
     console.log(req.body)
     let update = {
         commentText: req.body.text
@@ -141,5 +141,5 @@ exports.editPost = (req, res , next) => {
         id: req.body.id
         }
     })
-    status.send(200).json({message: "Post text updated"})
+    res.status(200).json({message: "Post text updated"})
 }
