@@ -53,6 +53,7 @@ exports.getAllPosts = (req, res ,next ) => {
         res.status(200).json({posts})
     })
 }
+
 exports.editPost = (req, res, next) => {
     console.log(req.body)
     if(req.body.postText && !req.file){
@@ -97,12 +98,17 @@ exports.deletePost = (req, res, next) => {
     })
 }
 
+
+
 exports.createComment = (req, res ,next) => {
     const comment = models.Comment.create({
         userId: req.body.userId,
         postId: req.body.postId,
+        userImage: req.body.userImage,
         commentText: req.body.commentText,
+        userName: req.body.userName,
     })
+    res.send(201).json({message: "Comment created"})
 }
 
 exports.getAllComment = (req, res ,next) => {
@@ -111,3 +117,13 @@ exports.getAllComment = (req, res ,next) => {
         res.status(200).json({comment})
     })
 }
+
+exports.deleteComment = (req, res, next) => {
+    models.Comment.destroy({
+        where: {
+            id: req.body.id
+        }
+    })
+    res.send(200).json({message: "Comment deleted"})
+}
+

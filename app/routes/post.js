@@ -13,5 +13,6 @@ router.put("/deletePost", postCtrl.deletePost)
 //Gestion des commentaires
 router.post("/createComment", postCtrl.createComment)
 router.get("/getAllComment", postCtrl.getAllComment)
+router.put("/deleteComment", postCtrl.deleteComment)
 
 module.exports = router;

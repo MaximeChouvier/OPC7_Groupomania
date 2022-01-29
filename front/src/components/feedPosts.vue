@@ -39,8 +39,11 @@
             </form>
 
             <div class="commentWrapper" v-for="comment in comments" :key="comment.id" >
+                <i v-if="comment.userId === userInfo.id" class="fas fa-trash trashButton" @click="deleteThisComment(comment.id)"></i>
+                <i v-else-if="userInfo.isAdmin == 1" class="fas fa-trash trashButton" @click="deleteThisComment(comment.id)"></i>
+ 
                 <div class="comment-upper">
-                    <img class="commentImage" src="../assets/profilholder.jpg" alt="">
+                    <img class="commentImage" :src="comment.userImage" alt="">
                     <p class="commentName">{{comment.userName}}</p>
                 </div>
                 <p class="commentText">{{comment.commentText}}</p>
@@ -85,11 +88,25 @@ export default{
                     userId: this.userInfo.id,
                     postId: postId,
                     commentText: inputContent,
-                    userName: this.userInfo.userName
+                    userImage: this.userInfo.imgUrl,
+                    userName: this.userInfo.name + " " + this.userInfo.firstname
                 }
                 axios
                     .post("http://localhost:3000/api/auth/createComment", data)
+                    .then(()=>{
+                        this.$router.go(0)
+                    })
             }
+        },
+        deleteThisComment(id){
+            let data = {
+                id: id
+            }
+            axios
+                .put("http://localhost:3000/api/auth/deleteComment", data)
+                .then(() =>{
+                    this.$router.go(0);
+                })
         },
         editForm(postId){
             console.log(postId)
