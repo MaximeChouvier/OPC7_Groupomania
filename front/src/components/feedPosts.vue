@@ -41,7 +41,7 @@
             <div class="commentWrapper" v-for="comment in comments" :key="comment.id" >
                 <div class="comment-upper">
                     <img class="commentImage" src="../assets/profilholder.jpg" alt="">
-                    <p class="commentName">id {{comment.userId}}</p>
+                    <p class="commentName">{{comment.userName}}</p>
                 </div>
                 <p class="commentText">{{comment.commentText}}</p>
             </div>     
@@ -85,6 +85,7 @@ export default{
                     userId: this.userInfo.id,
                     postId: postId,
                     commentText: inputContent,
+                    userName: this.userInfo.userName
                 }
                 axios
                     .post("http://localhost:3000/api/auth/createComment", data)
@@ -114,8 +115,8 @@ export default{
                     method: "PUT",
                     body: formData,
                 })
-                .then((res) => {
-                    console.log(res)
+                .then(() => {
+                    this.$router.go(0)
 
                 })
                 .catch((error) => {

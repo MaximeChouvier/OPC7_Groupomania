@@ -59,30 +59,33 @@ exports.editPost = (req, res, next) => {
         let update = {
             postText: req.body.postText
         }
-        models.Posts.update(update, {
+        models.Post.update(update, {
             where: {
             id: req.body.postId
             }
         })
+        res.status(200).json({message: "text updated"})
     }else if (!req.body.postText && req.file){
         let update = {
             imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
         }
-        models.Posts.update(update, {
+        models.Post.update(update, {
             where: {
             id: req.body.postId
             }
         })
+        res.status(200).json({message: "image updated"})
     } else if (req.body.postText && req.file){
         let update = {
             imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
             postText: req.body.postText
         }
-        models.Posts.update(update, {
+        models.Post.update(update, {
             where: {
             id: req.body.postId
             }
         })
+        res.status(200).json({message: "both updated"})
     }
 }
 
