@@ -1,7 +1,9 @@
 <template>
     <div id="postContainer">
         <div id="editPost">
+            <i class="fas fa-window-close" @click="closeForm"></i>
             <h1 class="editPost_title">Editer le post</h1>
+            
             <form id="editPost_form">
                 <textarea v-model="editPost_text" id="editPost_formText" cols="30" rows="5" maxlength="270" placeholder="Nouveau texte"></textarea>
                 <input type="file" id="editPost_formImage" name="editPost_formImage" 
@@ -47,6 +49,10 @@
                     <p class="commentName">{{comment.userName}}</p>
                 </div>
                 <p class="commentText">{{comment.commentText}}</p>
+                <form id="editComment" action="" v-if="comment.userId === userInfo.id">
+                    <input v-model="editComment_text" type="text" id="editComment" placeholder="Nouveau texte">
+                    <button class="editComment_button" @click="editComment(comment.id)">Editer vôtre commentaire</button>
+                </form>
             </div>     
                          
         </div>
@@ -68,6 +74,9 @@ export default{
 
             editingId: null,
             editPost_text: "",
+            editComment_text: "",
+
+            openForm: 0,
         }
     },
     methods: {
@@ -109,11 +118,21 @@ export default{
                 })
         },
         editForm(postId){
-            console.log(postId)
-            document.getElementById("editPost").style.display = "block"
-            document.getElementById("editPost_form").style.display = "inline"
-            this.editingId = postId
-            console.log(this.editingId)
+            if (this.openForm == 0){
+                document.getElementById("editPost").style.display = "block"
+                document.getElementById("editPost_form").style.display = "inline"
+                this.editingId = postId
+                this.openForm = 1;
+            }
+
+        },
+        closeForm(){
+            if(this.openForm == 1){
+                this.openForm = 0;
+                document.getElementById("editPost").style.display = "none"
+                document.getElementById("editPost_form").style.display = "none"
+            
+            }
         },
         editPost(e){
             e.preventDefault();
@@ -141,6 +160,17 @@ export default{
                 })
             }
         },
+        editComment(id){
+            let data = {
+                id: id,
+                text: this.editComment_text,
+            }
+            axios
+            .put("http://localhost:3000/api/auth/editPost", data)
+            .then(() => {
+                this.$router.go(0)
+            })
+        }
     },
     mounted() {
         let token = localStorage.getItem("token");
@@ -179,37 +209,6 @@ export default{
 </script>
 
 <style scoped>
-/* Edit post pop-up */
-#editPost{
-    background-color: rgba(0, 0, 0, 0.322);
-    
-}
-#editPost, #editPost_form{
-    flex-wrap: wrap;
-    display: flex;
-    justify-content: center;
-    display: none;
-}
-#editPost_form{
-    max-width: 300px;
-    margin: 10px;
-}
-textarea{
-    height: 100px;
-    border-radius: 5px;
-    background-color: #171123 ;
-    border: none;
-    resize: none;
-    margin: 10px;
-}
-.editPost_button{
-        background-color: #372248 ;
-        border: none;
-        padding:10px;
-        font-size: 15px;
-        margin: 10px;
-}
-
 label{
     font-size: 14px;
 }
@@ -304,5 +303,41 @@ label{
 }
 .commentText{
     text-align: justify;
+}
+/* Edit post pop-up */
+#editPost{
+    background-color: rgba(0, 0, 0, 0.322);
+    
+}
+#editPost, #editPost_form{
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    display: none;
+}
+#editPost_form{
+    max-width: 300px;
+    margin: 10px;
+}
+textarea{
+    height: 100px;
+    border-radius: 5px;
+    background-color: #171123 ;
+    border: none;
+    resize: none;
+    margin: 10px;
+}
+.editPost_button{
+        background-color: #372248 ;
+        border: none;
+        padding:10px;
+        font-size: 15px;
+        margin: 10px;
+}
+.editComment_button{
+    background-color: #171123;
+    border: none;
+    padding: 5px;
+    border-radius: 10px;
 }
 </style>
