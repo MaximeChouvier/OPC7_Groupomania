@@ -22,7 +22,7 @@
                 <i v-if="post.userId === userInfo.id && post.postText" class="fas fa-edit" @click="editForm(post.id)"></i>
                 <i v-else-if="userInfo.isAdmin == 1 && post.postText" class="fas fa-edit" @click="editForm(post.id)"></i>
                 
-                <img class="post-userPicture" alt="an user profile image" :src="userInfo.imgUrl">
+                <img class="post-userPicture" alt="an user profile image" :src="post.userImage">
                 <h1 class="post-userName">{{post.userName}}</h1>
             </div>
 

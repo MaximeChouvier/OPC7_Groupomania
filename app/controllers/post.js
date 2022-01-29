@@ -12,6 +12,7 @@ exports.createPost = (req, res, next) =>{
             imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
             userName: req.body.userName,
             userId: req.body.userId,
+            userImage: req.body.userImage,
     })
         .then((post) => {
             res.status(201).json({
@@ -22,7 +23,9 @@ exports.createPost = (req, res, next) =>{
         const post = models.Post.create({
             userName: req.body.userName,
             userId: req.body.userId,
-            postText: req.body.postText
+            userImage: req.body.userImage,
+            postText: req.body.postText,
+            
     })
         .then((post) => {
             res.status(201).json({
@@ -34,6 +37,7 @@ exports.createPost = (req, res, next) =>{
             userName: req.body.userName,
             userId: req.body.userId,
             postText: req.body.postText,
+            userImage: req.body.userImage,
             imgUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
 
     })

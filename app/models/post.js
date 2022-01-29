@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
       userName: DataTypes.TEXT,
       userId: DataTypes.INTEGER,
       postText: DataTypes.TEXT,
-      imgUrl: DataTypes.TEXT
+      imgUrl: DataTypes.TEXT,
+      userImage: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'Post',

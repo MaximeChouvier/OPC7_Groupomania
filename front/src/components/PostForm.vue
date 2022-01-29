@@ -18,7 +18,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 let jwt = require("jsonwebtoken")
 export default{
     name: "PostForm",
@@ -36,30 +36,35 @@ export default{
             let token = localStorage.getItem("token");
             let decodedToken = jwt.verify(token, "C(Y97Y4#R}yep5J}")
             let fullName = decodedToken.name + " " + decodedToken.firstname
+            axios
+            .post("http://localhost:3000/api/auth/getUserProfileInfo", {userId : decodedToken.userId})
+            .then((res) => {
+                console.log(res.data)
+                const imageFile = document.querySelector("input[type=file]").files[0];
+                if (this.newPost != "" || imageFile) {
+                    const formData = new FormData();
+                    formData.append("postText", this.postText);
+                    formData.append("userName", fullName);
+                    formData.append("userId", decodedToken.userId);
+                    formData.append("userImage", res.data.imgUrl)
 
-            const imageFile = document.querySelector("input[type=file]").files[0];
-            if (this.newPost != "" || imageFile) {
-                const formData = new FormData();
-                formData.append("postText", this.postText);
-                formData.append("userName", fullName);
-                formData.append("userId", decodedToken.userId);
-
-                if (imageFile) {
-                    formData.append("image", imageFile);
+                    if (imageFile) {
+                        formData.append("image", imageFile);
+                    }
+                    fetch("http://localhost:3000/api/auth/createPost", {
+                        method: "POST",
+                        body: formData,
+                    })
+                    .then((res) => {
+                        console.log(res)
+                        this.$router.push("/feed")
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
                 }
-                
-                fetch("http://localhost:3000/api/auth/createPost", {
-                    method: "POST",
-                    body: formData,
-                })
-                .then((res) => {
-                    console.log(res)
-                    this.$router.push("/feed")
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-            }
+            })
+
         },
 
     },
