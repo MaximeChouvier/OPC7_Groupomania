@@ -1,8 +1,8 @@
 <template>
     <div class="nav">
-      <router-link to="/"><i class="fas fa-sign-out-alt navIcon" @click="disconnect"></i></router-link>
-      <router-link to="/Post"><i class="far fa-comment-alt navIcon"></i></router-link>
-      <router-link to="/Profile"><i class="far fa-address-card navIcon"></i></router-link>
+      <router-link to="/"><i class="fas fa-sign-out-alt navIcon" @click="disconnect"></i>Déconnexion</router-link>
+      <router-link to="/Post"><i class="far fa-comment-alt navIcon"></i>Nouveau post</router-link>
+      <router-link to="/Profile"><i class="far fa-address-card navIcon"></i>Profil</router-link>
     </div>
 </template>
 

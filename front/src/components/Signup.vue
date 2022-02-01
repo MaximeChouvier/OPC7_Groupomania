@@ -36,6 +36,15 @@ export default {
   },
   methods: {
     async sendSignupRequest(){
+    const email_regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const password_regex =  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+    // more than 8 chars  
+    // at least one number
+    // at least one special character
+    const isValidEmail = email_regex.test(this.email);
+    const isValidPassword = password_regex.test(this.password);
+
+if (isValidEmail == true && isValidPassword == true){
       const data = {
         email: this.email,
         name: this.name,
@@ -52,6 +61,18 @@ export default {
           this.error = error.response.data;
           console.log(error.response.data);
         });
+        } else if (isValidEmail == false && isValidPassword == true){
+          // email not valid
+          alert("Email non valide")
+        } else if (isValidEmail == true && isValidPassword == false){
+          //password not valid
+
+          alert("Mot de passe non valide, il doit être composé d'au moins 8 caractères, 1 numéro et 1 caractères spécial (ex: ! , ? , -)")
+        } else if (isValidEmail == false && isValidPassword == false) {
+          //both not valid
+          alert("Mot de passe et email non valide. le mot de passe doit être composé d'au moins 8 caractères, 1 numéro et 1 caractères spécial (ex: ! , ? , -")
+        }
+
     }
   }
 }

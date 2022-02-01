@@ -3,7 +3,8 @@
         <div id="editPost">
             <i class="fas fa-window-close" @click="closeForm"></i>
             <h1 class="editPost_title">Editer le post</h1>
-            
+                 <label for="editPost_formText">Nouveau texte du post</label>
+           
             <form id="editPost_form">
                 <textarea v-model="editPost_text" id="editPost_formText" cols="30" rows="5" maxlength="270" placeholder="Nouveau texte"></textarea>
                 <input type="file" id="editPost_formImage" name="editPost_formImage" 
@@ -36,7 +37,8 @@
             </div>
 
             <form class="commentForm">
-                <input id="commentInput" v-model="commentInput[i]" maxlength="100" type="text" placeholder="Commentez ce post">
+                <label for="commentInput">Commentez ce post</label>
+                <input id="commentInput" v-model="commentInput[i]" maxlength="100" type="text">
                 <div class="commentButton" @click="createComment(post.id, i)">Commenter</div>
             </form>
 
@@ -50,8 +52,9 @@
                 </div>
                 <p class="commentText">{{comment.commentText}}</p>
                 <form id="editComment" action="" v-if="comment.userId === userInfo.id">
-                    <input v-model="editComment_text" type="text" id="editComment" placeholder="Nouveau texte">
-                    <button class="editComment_button" @click="editComment(comment.id)">Editer vôtre commentaire</button>
+                    <label for="editComment">Nouveau texte</label>
+                    <input v-model="editComment_text" type="text" id="editComment">
+                    <button class="editComment_button" @click="editComment(comment.id)">Editer</button>
                 </form>
             </div>     
                          
@@ -250,7 +253,6 @@ label{
     height: 200px;
     width: 360px;
 }
-
 .post-content p{
     text-align: justify;
     word-wrap: break-word;
@@ -310,15 +312,10 @@ label{
     
 }
 #editPost, #editPost_form{
-    flex-wrap: wrap;
-    display: flex;
-    justify-content: center;
+    
     display: none;
 }
-#editPost_form{
-    max-width: 300px;
-    margin: 10px;
-}
+
 textarea{
     height: 100px;
     border-radius: 5px;
