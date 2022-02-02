@@ -37,8 +37,8 @@
             </div>
 
             <form class="commentForm">
-                <label for="commentInput">Commentez ce post</label>
-                <input id="commentInput" v-model="commentInput[i]" maxlength="100" type="text">
+                <label :for="post.id">Commentez ce post</label>
+                <input :id="post.id" class="commentInput" v-model="commentInput[i]" maxlength="100" type="text">
                 <div class="commentButton" @click="createComment(post.id, i)">Commenter</div>
             </form>
 
@@ -51,9 +51,9 @@
                     <p class="commentName">{{comment.userName}}</p>
                 </div>
                 <p class="commentText">{{comment.commentText}}</p>
-                <form id="editComment" action="" v-if="comment.userId === userInfo.id">
-                    <label for="editComment">Nouveau texte</label>
-                    <input v-model="editComment_text" type="text" id="editComment">
+                <form id="editComment_form" action="" v-if="comment.userId === userInfo.id">
+                    <label :for="comment.id">Nouveau texte</label>
+                    <input v-model="editComment_text"  type="text" class="editComment" :id="comment.id">
                     <button class="editComment_button" @click="editComment(comment.id)">Editer</button>
                 </form>
             </div>     
@@ -276,10 +276,7 @@ label{
     display: flex;
     justify-content: space-around;
 }
-.commentInput{
-    min-width: 270px;
-    top: 20px;
-}
+
 .commentButton{
     background-color: #75faedad ;
     padding: 5px;
