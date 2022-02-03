@@ -29,7 +29,7 @@
 
             <div class="post-content">
                 <p v-if="post.postText && !post.imgUrl"> {{post.postText}}</p>
-                <img class="postImage" v-if="!post.postText && post.imgUrl" :src="post.imgUrl">
+                <img class="postImage" alt="An image posted by an user" v-if="!post.postText && post.imgUrl" :src="post.imgUrl">
                 <div v-if="post.postText && post.imgUrl">
                     <img class="postImage" :src="post.imgUrl">
                     <p>{{post.postText}}</p>
