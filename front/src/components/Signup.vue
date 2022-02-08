@@ -35,6 +35,10 @@ export default {
     };
   },
   methods: {
+        /* eslint-disable */
+    // Vue ne veux pas compiler à cause de la chaine de charactères 
+    //regexp qu'il considère comme une faute de frappe.
+    // Je désactive ici les warnings.
     async sendSignupRequest(){
     const email_regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const password_regex =  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
