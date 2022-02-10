@@ -63,7 +63,7 @@ models.User.findOne({where : {email: req.body.email}})
 };
 
 exports.deleteUser = (req, res, next) => {
-console.log(req.body.userId)
+
     models.User.destroy({
     where: {
         id : req.body.userId

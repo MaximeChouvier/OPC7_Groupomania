@@ -203,9 +203,7 @@ export default{
                 this.posts = filtered
                 console.log(this.posts)
             })
-            })
-
-
+        })
     }
 }
 
